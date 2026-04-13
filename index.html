@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muzaffar Murtozayev | Portfolio</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --neon-blue: #00c3ff;
+    --neon-purple: #a855f7;
+    --neon-pink: #ec4899;
+    --glass-bg: rgba(255,255,255,0.04);
+    --glass-border: rgba(255,255,255,0.1);
+    --text-primary: #e8f0ff;
+    --text-secondary: #7a8aaa;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: #030b1a;
+    color: var(--text-primary);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── LANGUAGE SWITCHER DROPDOWN ── */
+  .lang-switcher {
+    position: fixed;
+    top: 18px;
+    right: 20px;
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  .lang-active-btn {
+    padding: 7px 16px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    border: 1px solid rgba(0,195,255,0.55);
+    background: rgba(0,195,255,0.13);
+    color: var(--neon-blue);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 0 14px rgba(0,195,255,0.25);
+    outline: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: box-shadow 0.2s, transform 0.2s;
+    user-select: none;
+  }
+  .lang-active-btn:hover { transform: translateY(-1px); box-shadow: 0 0 22px rgba(0,195,255,0.38); }
+  .lang-arrow {
+    font-size: 0.6rem;
+    transition: transform 0.25s;
+    display: inline-block;
+  }
+  .lang-switcher.open .lang-arrow { transform: rotate(180deg); }
+
+  .lang-dropdown {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 8px;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: max-height 0.32s cubic-bezier(.4,0,.2,1), opacity 0.25s;
+  }
+  .lang-switcher.open .lang-dropdown {
+    max-height: 120px;
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .lang-btn {
+    padding: 7px 16px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    border: 1px solid var(--glass-border);
+    background: rgba(4,12,32,0.85);
+    color: var(--text-secondary);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: background 0.22s, color 0.22s, border-color 0.22s, box-shadow 0.22s, transform 0.18s;
+    outline: none;
+    text-align: center;
+  }
+  .lang-btn:hover {
+    color: #fff;
+    border-color: rgba(0,195,255,0.4);
+    background: rgba(0,195,255,0.12);
+    transform: translateX(-3px);
+    box-shadow: 0 0 14px rgba(0,195,255,0.2);
+  }
+
+  .glow-spot {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(90px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .glow-1 { width: 520px; height: 520px; background: rgba(0,70,190,0.25); top: -120px; left: -100px; }
+  .glow-2 { width: 420px; height: 420px; background: rgba(80,0,200,0.2);  top: 38%; right: -110px; }
+  .glow-3 { width: 360px; height: 360px; background: rgba(0,110,210,0.17); bottom: 8%; left: 12%; }
+
+  .grid-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(0,140,255,0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,140,255,0.045) 1px, transparent 1px);
+    background-size: 55px 55px;
+  }
+
+  .it-icons {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .it-icon {
+    position: absolute;
+    bottom: -5vh;
+    opacity: 0;
+    font-size: 1.2rem;
+    font-family: monospace;
+    animation: floatUp linear infinite;
+    user-select: none;
+  }
+  @keyframes floatUp {
+    0%   { transform: translateY(0) rotate(0deg);   opacity: 0; }
+    6%   { opacity: 1; }
+    88%  { opacity: 0.5; }
+    100% { transform: translateY(-115vh) rotate(15deg); opacity: 0; }
+  }
+
+  .page { position: relative; z-index: 1; }
+
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 20px 80px;
+  }
+
+  .avatar-wrap {
+    position: relative;
+    width: 150px; height: 150px;
+    margin: 0 auto 28px;
+  }
+  .avatar-ring {
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, var(--neon-blue), var(--neon-purple), var(--neon-pink), var(--neon-blue));
+    animation: spin 4s linear infinite;
+    z-index: 0;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .avatar-inner {
+    position: absolute;
+    inset: 3px;
+    border-radius: 50%;
+    background: #05102a;
+    z-index: 1;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .avatar-inner img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .avatar-fallback {
+    font-size: 2.2rem; font-weight: 700; color: #a0c4ff;
+    display: none; align-items: center; justify-content: center;
+    width: 100%; height: 100%;
+  }
+
+  .hero-name {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #fff 0%, var(--neon-blue) 50%, var(--neon-purple) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
+    line-height: 1.15;
+  }
+  .hero-sub {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.04em;
+    margin-bottom: 36px;
+  }
+  .hero-sub span { color: var(--neon-blue); }
+
+  .btn-neon {
+    display: inline-block;
+    padding: 14px 36px;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    border: none;
+    background: transparent;
+    position: relative;
+    color: #fff;
+    text-decoration: none;
+    transition: transform 0.25s, box-shadow 0.25s;
+    outline: none;
+  }
+  .btn-neon::before {
+    content: '';
+    position: absolute; inset: 0;
+    border-radius: 50px; padding: 2px;
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+  .btn-neon::after {
+    content: '';
+    position: absolute; inset: 0;
+    border-radius: 50px;
+    background: linear-gradient(135deg, rgba(0,195,255,0.1), rgba(168,85,247,0.1));
+  }
+  .btn-neon:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 30px rgba(0,195,255,0.35), 0 0 60px rgba(168,85,247,0.2);
+  }
+
+  .scroll-caret {
+    margin-top: 50px;
+    animation: bounce 2s ease-in-out infinite;
+    color: var(--text-secondary);
+    font-size: 1.5rem;
+  }
+  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
+
+  .projects {
+    padding: 80px 20px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .section-title {
+    text-align: center;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 700;
+    margin-bottom: 50px;
+  }
+  .section-title span {
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .section-title::after {
+    content: '';
+    display: block; width: 60px; height: 3px;
+    background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+    border-radius: 2px; margin: 12px auto 0;
+  }
+
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+
+  .project-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    overflow: hidden;
+    transition: transform 0.35s cubic-bezier(.25,.8,.25,1), box-shadow 0.35s, border-color 0.3s;
+  }
+  .project-card:hover {
+    transform: translateY(-10px) scale(1.01);
+    box-shadow: 0 20px 60px rgba(0,195,255,0.15), 0 0 0 1px rgba(0,195,255,0.3);
+    border-color: rgba(0,195,255,0.35);
+  }
+  .card-thumb {
+    height: 190px;
+    background: linear-gradient(135deg, #030d22 0%, #060f28 50%, #080f32 100%);
+    position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .card-thumb::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 30% 40%, rgba(0,195,255,0.2) 0%, transparent 60%),
+      radial-gradient(ellipse at 70% 70%, rgba(124,58,237,0.2) 0%, transparent 60%);
+  }
+  .card-thumb-icon {
+    font-size: 3rem;
+    position: relative; z-index: 1;
+    filter: drop-shadow(0 0 14px rgba(0,195,255,0.7));
+  }
+  .card-badge {
+    position: absolute; top: 14px; right: 14px;
+    background: rgba(0,195,255,0.12);
+    border: 1px solid rgba(0,195,255,0.4);
+    color: var(--neon-blue);
+    font-size: 0.7rem; font-weight: 700;
+    padding: 4px 10px; border-radius: 20px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .card-body { padding: 24px; }
+  .card-body h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; }
+  .card-body p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.65; margin-bottom: 20px; }
+
+  .btn-card {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 22px; border-radius: 30px;
+    font-size: 0.88rem; font-weight: 600;
+    text-decoration: none; color: var(--neon-blue);
+    border: 1px solid rgba(0,195,255,0.4);
+    background: rgba(0,195,255,0.08);
+    transition: background 0.25s, box-shadow 0.25s, transform 0.2s;
+  }
+  .btn-card:hover {
+    background: rgba(0,195,255,0.2);
+    box-shadow: 0 0 20px rgba(0,195,255,0.25);
+    transform: translateX(3px);
+  }
+  .btn-card svg { width: 14px; height: 14px; transition: transform 0.2s; }
+  .btn-card:hover svg { transform: translateX(3px); }
+
+  footer {
+    text-align: center;
+    padding: 44px 20px 36px;
+    border-top: 1px solid var(--glass-border);
+  }
+  .footer-socials {
+    display: flex; align-items: center; justify-content: center;
+    gap: 14px; flex-wrap: wrap; margin-bottom: 20px;
+  }
+  .social-btn {
+    display: inline-flex; align-items: center; gap: 9px;
+    padding: 11px 24px; border-radius: 50px;
+    font-size: 0.9rem; font-weight: 600;
+    text-decoration: none; border: 1px solid;
+    transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
+  }
+  .social-btn svg { width: 18px; height: 18px; flex-shrink: 0; }
+  .social-tg {
+    color: #29b6e8;
+    border-color: rgba(41,182,232,0.38);
+    background: rgba(41,182,232,0.07);
+  }
+  .social-tg:hover {
+    background: rgba(41,182,232,0.18);
+    box-shadow: 0 0 26px rgba(41,182,232,0.32);
+    transform: translateY(-3px);
+  }
+  .social-ig {
+    color: #e8609a;
+    border-color: rgba(232,96,154,0.38);
+    background: rgba(232,96,154,0.07);
+  }
+  .social-ig:hover {
+    background: rgba(232,96,154,0.18);
+    box-shadow: 0 0 26px rgba(232,96,154,0.32);
+    transform: translateY(-3px);
+  }
+  .footer-copy { font-size: 0.8rem; color: var(--text-secondary); }
+  .footer-copy a { color: var(--neon-blue); text-decoration: none; }
+
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+    background: rgba(2,5,16,0.82);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.35s;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: auto; }
+
+  .modal {
+    background: rgba(4,12,32,0.93);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    max-width: 520px; width: 100%; padding: 36px;
+    position: relative;
+    transform: translateY(30px) scale(0.96);
+    transition: transform 0.35s cubic-bezier(.25,.8,.25,1);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(0,195,255,0.07);
+    max-height: 90vh; overflow-y: auto;
+  }
+  .modal-overlay.open .modal { transform: translateY(0) scale(1); }
+
+  .modal-close {
+    position: absolute; top: 16px; right: 16px;
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1px solid var(--glass-border);
+    background: rgba(255,255,255,0.05);
+    color: var(--text-secondary);
+    font-size: 1.1rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s, color 0.2s; line-height: 1;
+  }
+  .modal-close:hover { background: rgba(236,72,153,0.2); color: var(--neon-pink); }
+
+  .modal-title {
+    font-size: 1.4rem; font-weight: 700; margin-bottom: 24px;
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .modal-section { margin-bottom: 22px; }
+  .modal-section h4 {
+    font-size: 0.72rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--neon-purple); margin-bottom: 8px;
+  }
+  .modal-section p, .modal-section a {
+    font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7;
+  }
+  .modal-section a { color: var(--neon-blue); text-decoration: none; display: block; margin-top: 4px; }
+  .modal-section a:hover { text-decoration: underline; }
+  .modal-divider { height: 1px; background: var(--glass-border); margin: 18px 0; }
+
+  @media (max-width: 480px) {
+    .avatar-wrap { width: 120px; height: 120px; }
+    .modal { padding: 24px 18px; }
+    .modal-title { font-size: 1.2rem; }
+    .footer-socials { flex-direction: column; gap: 10px; }
+    .lang-switcher { top: 12px; right: 10px; }
+    .lang-active-btn, .lang-btn { padding: 5px 12px; font-size: 0.72rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LANGUAGE SWITCHER DROPDOWN -->
+<div class="lang-switcher" id="langSwitcher">
+  <button class="lang-active-btn" id="langActiveBtn" onclick="toggleLangMenu()">
+    <span id="langLabel">UZ</span>
+    <span class="lang-arrow">▼</span>
+  </button>
+  <div class="lang-dropdown" id="langDropdown">
+    <button class="lang-btn" onclick="setLang('ru')">RU</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+  </div>
+</div>
+
+<div class="glow-spot glow-1"></div>
+<div class="glow-spot glow-2"></div>
+<div class="glow-spot glow-3"></div>
+<div class="grid-overlay"></div>
+<div class="it-icons" id="itIcons"></div>
+
+<div class="page">
+
+  <section class="hero">
+    <div class="avatar-wrap">
+      <div class="avatar-ring"></div>
+      <div class="avatar-inner">
+        <img src="c90bdf0a-ba80-47c1-8bee-05dd97c4367d.jfif" alt="Muzaffar Murtozayev" id="avatarImg">
+        <span class="avatar-fallback" id="avatarFallback">MM</span>
+      </div>
+    </div>
+
+    <h1 class="hero-name">Muzaffar Murtozayev</h1>
+    <p class="hero-sub">
+      <span data-i18n="hero_role"></span>
+      &nbsp;|&nbsp;
+      <span data-i18n="hero_interest"></span>
+    </p>
+    <button class="btn-neon" id="openModal" data-i18n="about_btn"></button>
+    <div class="scroll-caret">&#8964;</div>
+  </section>
+
+  <section class="projects">
+    <h2 class="section-title"><span data-i18n="projects_title"></span></h2>
+    <div class="card-grid">
+      <div class="project-card">
+        <div class="card-thumb">
+          <div class="card-badge">Live</div>
+          <div class="card-thumb-icon">&#127782;</div>
+        </div>
+        <div class="card-body">
+          <h3 data-i18n="card1_title"></h3>
+          <p data-i18n="card1_desc"></p>
+          <a href="https://murtozayevmuzaffar1-oss.github.io/uz-weather/ob-havo.html" target="_blank" class="btn-card">
+            <span data-i18n="card_btn"></span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-socials">
+      <a href="https://t.me/muzaffar_uz01" target="_blank" class="social-btn social-tg">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+        </svg>
+        @muzaffar_uz01
+      </a>
+      <a href="https://instagram.com/mr_muzaffar23" target="_blank" class="social-btn social-ig">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+        </svg>
+        @mr_muzaffar23
+      </a>
+    </div>
+    <p class="footer-copy">&copy; 2026 &mdash; <a href="mailto:murtozayevmuzaffar1@gmail.com">Muzaffar Murtozayev</a> <span data-i18n="footer_made"></span></p>
+  </footer>
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalHeading">
+    <button class="modal-close" id="closeModal" aria-label="Yopish">&#10005;</button>
+    <h2 class="modal-title" id="modalHeading" data-i18n="modal_title"></h2>
+
+    <div class="modal-section">
+      <h4 data-i18n="modal_intro_label"></h4>
+      <p data-i18n="modal_intro_text"></p>
+    </div>
+
+    <div class="modal-divider"></div>
+
+    <div class="modal-section">
+      <h4 data-i18n="modal_goal_label"></h4>
+      <p data-i18n="modal_goal_text"></p>
+    </div>
+
+    <div class="modal-divider"></div>
+
+    <div class="modal-section">
+      <h4 data-i18n="modal_contact_label"></h4>
+      <a href="mailto:murtozayevmuzaffar1@gmail.com">&#9993;&#65039; murtozayevmuzaffar1@gmail.com</a>
+      <a href="tel:+998930623323">&#128222; +998 93 062-33-23</a>
+      <a href="https://t.me/muzaffar_uz01" target="_blank">&#128640; Telegram: @muzaffar_uz01</a>
+      <a href="https://instagram.com/mr_muzaffar23" target="_blank">&#128248; Instagram: @mr_muzaffar23</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── TRANSLATIONS ──
+  var i18n = {
+    uz: {
+      hero_role:        'Veb-Dasturchi',
+      hero_interest:    'Kiberxavfsizlik Ishqibozi',
+      about_btn:        '👤 O\'zim haqimda',
+      projects_title:   'Mening loyihalarim',
+      card1_title:      'O\'zbekiston Ob-havosi',
+      card1_desc:       'OpenWeatherMap API yordamida yaratilgan, viloyatlar bo\'yicha real vaqtda ob-havo ma\'lumotlarini ko\'rsatuvchi professional veb-ilova.',
+      card_btn:         'Loyihani ko\'rish',
+      footer_made:      'tomonidan yaratildi.',
+      modal_title:      'O\'zim haqimda',
+      modal_intro_label:'👤 Qisqacha tanishuv 😇',
+      modal_intro_text: 'Salom! Mening ismim Muzaffar. Men hozirda ISFT institutining "Axborot tizimlari va texnologiyalari" yo\'nalishi bo\'yicha 2-kurs talabasiman. Texnologiyalar olami men uchun shunchaki o\'qish emas, balki hayot tarzi va kelajak poydevoridir. Men doimo murakkab muammolarga kreativ va xavfsiz raqamli yechimlar topishga intilaman. Hozirda dasturlashning Frontend yo\'nalishi va Kiberxavfsizlik sohalarida o\'z bilimlarimni chuqurlashtirmoqdaman.',
+      modal_goal_label: '🎯 Maqsadim',
+      modal_goal_text:  'Mening asosiy maqsadim — nafaqat chiroyli va qulay veb-saytlar yaratish, balki foydalanuvchilar ma\'lumotlari himoyasini ta\'minlaydigan xavfsiz raqamli ekotizimlar barpo etishdir. Har bir yozgan kodim ortida insonlar hayotini osonlashtirish va ularga texnologiyalar orqali yordam berish istagi yotadi.',
+      modal_contact_label: '📞 Kontaktlar'
+    },
+    ru: {
+      hero_role:        'Веб-Разработчик',
+      hero_interest:    'Любитель Кибербезопасности',
+      about_btn:        '👤 Обо мне',
+      projects_title:   'Мои проекты',
+      card1_title:      'Погода Узбекистана',
+      card1_desc:       'Профессиональное веб-приложение на основе OpenWeatherMap API, отображающее погоду в реальном времени по регионам Узбекистана.',
+      card_btn:         'Смотреть проект',
+      footer_made:      'Создано',
+      modal_title:      'Обо мне',
+      modal_intro_label:'👤 Краткое знакомство 😇',
+      modal_intro_text: 'Привет! Меня зовут Музаффар. В настоящее время я студент 2-го курса ISFT по направлению «Информационные системы и технологии». Мир технологий для меня — не просто учёба, а образ жизни и фундамент будущего. Я всегда стремлюсь находить творческие и безопасные цифровые решения для сложных задач. Сейчас углубляю знания во Frontend-разработке и кибербезопасности.',
+      modal_goal_label: '🎯 Моя цель',
+      modal_goal_text:  'Моя главная цель — не просто создавать красивые и удобные сайты, но и строить безопасные цифровые экосистемы, защищающие данные пользователей. За каждой строкой кода стоит желание облегчить жизнь людей и помочь им с помощью технологий.',
+      modal_contact_label: '📞 Контакты'
+    },
+    en: {
+      hero_role:        'Web Developer',
+      hero_interest:    'Cybersecurity Enthusiast',
+      about_btn:        '👤 About Me',
+      projects_title:   'My Projects',
+      card1_title:      'Uzbekistan Weather',
+      card1_desc:       'A professional web application built with the OpenWeatherMap API, showing real-time weather data across regions of Uzbekistan.',
+      card_btn:         'View Project',
+      footer_made:      'Made by',
+      modal_title:      'About Me',
+      modal_intro_label:'👤 Brief Introduction 😇',
+      modal_intro_text: 'Hi! My name is Muzaffar. I\'m currently a 2nd-year student at ISFT, majoring in Information Systems and Technologies. The world of technology is not just a field of study for me — it\'s a lifestyle and the foundation of my future. I always strive to find creative and secure digital solutions to complex problems. I\'m currently deepening my knowledge in Frontend development and Cybersecurity.',
+      modal_goal_label: '🎯 My Goal',
+      modal_goal_text:  'My main goal is not only to create beautiful and user-friendly websites, but to build secure digital ecosystems that protect user data. Behind every line of code I write is a desire to make people\'s lives easier and help them through technology.',
+      modal_contact_label: '📞 Contacts'
+    }
+  };
+
+  var currentLang = 'uz';
+  var allLangs = ['uz', 'ru', 'en'];
+
+  function toggleLangMenu() {
+    document.getElementById('langSwitcher').classList.toggle('open');
+  }
+
+  function buildDropdown(activeLang) {
+    var dropdown = document.getElementById('langDropdown');
+    dropdown.innerHTML = '';
+    allLangs.forEach(function(lang) {
+      if (lang === activeLang) return;
+      var btn = document.createElement('button');
+      btn.className = 'lang-btn';
+      btn.textContent = lang.toUpperCase();
+      btn.onclick = function() { setLang(lang); };
+      dropdown.appendChild(btn);
+    });
+  }
+
+  function setLang(lang) {
+    currentLang = lang;
+    document.getElementById('langLabel').textContent = lang.toUpperCase();
+    buildDropdown(lang);
+
+    // Close dropdown
+    document.getElementById('langSwitcher').classList.remove('open');
+
+    // Update all translated elements
+    var t = i18n[lang];
+    document.querySelectorAll('[data-i18n]').forEach(function(el) {
+      var key = el.getAttribute('data-i18n');
+      if (t[key] !== undefined) el.textContent = t[key];
+    });
+
+    document.documentElement.lang = lang;
+  }
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', function(e) {
+    var sw = document.getElementById('langSwitcher');
+    if (!sw.contains(e.target)) sw.classList.remove('open');
+  });
+
+  // Init
+  buildDropdown('uz');
+  setLang('uz');
+
+  // ── AVATAR FALLBACK ──
+  var img = document.getElementById('avatarImg');
+  img.onerror = function() {
+    this.style.display = 'none';
+    var fb = document.getElementById('avatarFallback');
+    fb.style.display = 'flex';
+  };
+
+  // ── MODAL ──
+  var overlay = document.getElementById('modalOverlay');
+  document.getElementById('openModal').addEventListener('click', function() {
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+  function closeModal() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('closeModal').addEventListener('click', closeModal);
+  overlay.addEventListener('click', function(e) { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
+
+  // ── FLOATING ICONS ──
+  var symbols = [
+    '{}', '</>', '01', '10', '#!',
+    'API', 'SSH', 'SQL', 'npm', 'git',
+    'CSS', 'TCP', 'UDP', 'HTTP', 'URL',
+    '>>>', '#!/', '0x', 'EOF', 'var',
+    'fn()', '[]', '::', '=>', '&&'
+  ];
+  var colors = [
+    'rgba(0,195,255,{a})',
+    'rgba(168,85,247,{a})',
+    'rgba(0,150,255,{a})',
+    'rgba(100,60,240,{a})'
+  ];
+  var container = document.getElementById('itIcons');
+  for (var i = 0; i < 32; i++) {
+    var el = document.createElement('span');
+    el.className = 'it-icon';
+    el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+    el.style.left = (Math.random() * 98) + 'vw';
+    el.style.fontSize = (0.75 + Math.random() * 0.9) + 'rem';
+    el.style.animationDuration = (20 + Math.random() * 25) + 's';
+    el.style.animationDelay = (Math.random() * 25) + 's';
+    var alpha = (0.1 + Math.random() * 0.18).toFixed(2);
+    var c = colors[Math.floor(Math.random() * colors.length)].replace('{a}', alpha);
+    el.style.color = c;
+    el.style.fontFamily = 'monospace';
+    container.appendChild(el);
+  }
+</script>
+</body>
+</html>
