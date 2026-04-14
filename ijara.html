@@ -1,0 +1,1630 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>IJARA. — Qurilish Asboblari Ijarasi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+/* =========================================
+   DESIGN TOKENS — Industrial/Bold aesthetic
+   ========================================= */
+:root {
+  --bg: #0f0f0f;
+  --bg2: #181818;
+  --bg3: #222222;
+  --surface: #1e1e1e;
+  --surface2: #2a2a2a;
+  --border: rgba(255,255,255,0.08);
+  --border2: rgba(255,255,255,0.14);
+  --text: #f0ede8;
+  --text2: #a09d98;
+  --text3: #666;
+  --orange: #ff6b35;
+  --orange2: #ff8c5a;
+  --orangeL: rgba(255,107,53,0.12);
+  --orangeB: rgba(255,107,53,0.25);
+  --green: #22c55e;
+  --greenL: rgba(34,197,94,0.12);
+  --red: #ef4444;
+  --redL: rgba(239,68,68,0.12);
+  --yellow: #eab308;
+  --r: 12px;
+  --r2: 8px;
+  --r3: 20px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.5);
+  --shadow2: 0 12px 40px rgba(0,0,0,0.6);
+  --t: 0.2s cubic-bezier(.4,0,.2,1);
+  --font: 'Space Grotesk', sans-serif;
+  --display: 'Syne', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+a { text-decoration: none; color: inherit; }
+
+/* ---- SCROLLBAR ---- */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 2px; }
+
+/* ---- GRID TEXTURE ---- */
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: linear-gradient(rgba(255,107,53,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,107,53,0.015) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* =========================================
+   NAV
+   ========================================= */
+.nav {
+  position: sticky; top: 0; z-index: 300;
+  background: rgba(15,15,15,0.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  height: 64px; padding: 0 24px;
+  display: flex; align-items: center; gap: 16px;
+}
+.nav-logo {
+  font-family: var(--display); font-size: 1.4rem; font-weight: 800;
+  color: var(--text); display: flex; align-items: center; gap: 8px; white-space: nowrap;
+}
+.nav-logo .accent { color: var(--orange); }
+.nav-logo .icon-wrap {
+  width: 34px; height: 34px; background: var(--orange); border-radius: 8px;
+  display: flex; align-items: center; justify-content: center; font-size: 0.9rem; color: white;
+}
+.nav-search {
+  flex: 1; max-width: 400px; position: relative;
+  display: flex; align-items: center;
+}
+.nav-search input {
+  width: 100%; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 30px; padding: 9px 16px 9px 40px;
+  color: var(--text); font-family: var(--font); font-size: 0.88rem; outline: none;
+  transition: border var(--t), box-shadow var(--t);
+}
+.nav-search input::placeholder { color: var(--text3); }
+.nav-search input:focus { border-color: var(--orange); box-shadow: 0 0 0 3px var(--orangeL); }
+.nav-search .s-icon {
+  position: absolute; left: 14px; color: var(--text3); font-size: 0.85rem; pointer-events: none;
+}
+.nav-actions { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.nav-btn {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 50%;
+  width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;
+  color: var(--text2); cursor: pointer; font-size: 0.9rem; position: relative;
+  transition: all var(--t);
+}
+.nav-btn:hover { border-color: var(--orange); color: var(--orange); background: var(--orangeL); }
+.nav-badge {
+  position: absolute; top: -3px; right: -3px;
+  background: var(--orange); color: white; border-radius: 50%;
+  width: 16px; height: 16px; font-size: 0.6rem; font-weight: 700;
+  display: none; align-items: center; justify-content: center;
+}
+.nav-user-btn {
+  display: flex; align-items: center; gap: 8px; background: var(--surface);
+  border: 1px solid var(--border); border-radius: 30px; padding: 6px 14px 6px 8px;
+  cursor: pointer; transition: all var(--t); color: var(--text);
+}
+.nav-user-btn:hover { border-color: var(--orange); }
+.nav-avatar {
+  width: 28px; height: 28px; border-radius: 50%; background: var(--orange);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem; font-weight: 700; color: white;
+}
+.nav-user-name { font-size: 0.85rem; font-weight: 600; }
+.hamburger { display: none; background: none; border: none; color: var(--text); font-size: 1.2rem; cursor: pointer; padding: 6px; }
+
+/* =========================================
+   LAYOUT
+   ========================================= */
+.layout { display: flex; min-height: calc(100vh - 64px); position: relative; z-index: 1; }
+
+/* =========================================
+   SIDEBAR
+   ========================================= */
+.sidebar {
+  width: 68px; background: var(--bg2); border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; align-items: center;
+  padding: 20px 0; gap: 6px;
+  position: sticky; top: 64px; height: calc(100vh - 64px);
+  overflow-y: auto; overflow-x: visible; z-index: 100;
+  transition: transform var(--t);
+}
+.s-item {
+  width: 50px; height: 50px; border-radius: var(--r2); cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+  border: 1px solid transparent; transition: all var(--t); position: relative;
+}
+.s-item:hover, .s-item.active { background: var(--orangeL); border-color: var(--orange); }
+.s-item .si { font-size: 1.1rem; color: var(--text3); transition: color var(--t); }
+.s-item:hover .si, .s-item.active .si { color: var(--orange); }
+.s-item .sl { font-size: 0.46rem; color: var(--text3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; text-align: center; }
+.s-item::after {
+  content: attr(data-tip); position: absolute; left: calc(100% + 10px); top: 50%;
+  transform: translateY(-50%); background: var(--surface2); color: var(--text);
+  font-size: 0.78rem; font-weight: 600; padding: 6px 10px; border-radius: 6px;
+  white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity 0.15s;
+  border: 1px solid var(--border); z-index: 9999;
+}
+.s-item:hover::after { opacity: 1; }
+.s-divider { width: 32px; height: 1px; background: var(--border); margin: 4px 0; }
+
+/* =========================================
+   MAIN
+   ========================================= */
+.main { flex: 1; padding: 32px 28px 60px; min-width: 0; }
+
+/* =========================================
+   HERO BANNER
+   ========================================= */
+.hero {
+  border-radius: 18px; padding: 36px 40px;
+  background: var(--surface); border: 1px solid var(--border);
+  margin-bottom: 32px; position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+}
+.hero::before {
+  content: ''; position: absolute; top: -40px; right: -40px;
+  width: 260px; height: 260px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,107,53,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--orangeL); border: 1px solid var(--orange);
+  border-radius: 20px; padding: 4px 12px; font-size: 0.75rem; font-weight: 600;
+  color: var(--orange); margin-bottom: 12px;
+}
+.hero h1 { font-family: var(--display); font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 800; line-height: 1.15; }
+.hero h1 span { color: var(--orange); }
+.hero p { color: var(--text2); margin-top: 8px; font-size: 0.9rem; max-width: 380px; }
+.hero-stats { display: flex; gap: 24px; margin-top: 20px; flex-wrap: wrap; }
+.hero-stat { }
+.hero-stat .hs-num { font-family: var(--display); font-size: 1.6rem; font-weight: 800; color: var(--orange); }
+.hero-stat .hs-lbl { font-size: 0.75rem; color: var(--text2); font-weight: 500; }
+.hero-actions { display: flex; flex-direction: column; gap: 10px; align-items: flex-end; }
+
+/* =========================================
+   BUTTONS
+   ========================================= */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 22px; border-radius: 30px; border: none;
+  font-family: var(--font); font-weight: 600; font-size: 0.9rem;
+  cursor: pointer; transition: all var(--t); white-space: nowrap; position: relative; overflow: hidden;
+}
+.btn:active { transform: scale(0.97); }
+.btn-orange { background: var(--orange); color: white; }
+.btn-orange:hover { background: var(--orange2); box-shadow: 0 6px 20px rgba(255,107,53,0.4); }
+.btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border2); }
+.btn-outline:hover { border-color: var(--orange); color: var(--orange); background: var(--orangeL); }
+.btn-ghost { background: var(--surface); color: var(--text2); border: 1px solid var(--border); }
+.btn-ghost:hover { color: var(--text); border-color: var(--border2); }
+.btn-danger { background: var(--red); color: white; }
+.btn-danger:hover { filter: brightness(1.1); }
+.btn-sm { padding: 7px 16px; font-size: 0.82rem; }
+.btn-block { width: 100%; justify-content: center; }
+.btn-icon { padding: 10px; border-radius: 50%; width: 40px; height: 40px; justify-content: center; }
+
+/* =========================================
+   TOP BAR
+   ========================================= */
+.top-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; gap: 12px; flex-wrap: wrap; }
+.top-bar h2 { font-family: var(--display); font-size: 1.3rem; font-weight: 800; }
+.top-bar h2 span { color: var(--orange); }
+.item-count { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 5px 12px; font-size: 0.8rem; font-weight: 600; color: var(--text2); }
+
+/* =========================================
+   FILTERS
+   ========================================= */
+.filters { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+.filter-pill {
+  padding: 6px 16px; border-radius: 20px; border: 1px solid var(--border);
+  background: var(--surface); color: var(--text2); font-size: 0.82rem; font-weight: 600;
+  cursor: pointer; transition: all var(--t); font-family: var(--font);
+}
+.filter-pill:hover, .filter-pill.active { border-color: var(--orange); color: var(--orange); background: var(--orangeL); }
+
+/* =========================================
+   ITEMS GRID
+   ========================================= */
+.items-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+
+/* =========================================
+   ITEM CARD
+   ========================================= */
+.item-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r); overflow: hidden;
+  display: flex; flex-direction: column;
+  transition: border-color var(--t), transform var(--t), box-shadow var(--t);
+  cursor: pointer;
+}
+.item-card:hover { border-color: var(--border2); transform: translateY(-3px); box-shadow: var(--shadow); }
+.card-img {
+  position: relative; aspect-ratio: 4/3; overflow: hidden; background: var(--bg3);
+}
+.card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+.item-card:hover .card-img img { transform: scale(1.05); }
+.card-badge {
+  position: absolute; top: 12px; left: 12px;
+  padding: 4px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 700; z-index: 2;
+  display: flex; align-items: center; gap: 5px; letter-spacing: 0.02em;
+}
+.badge-available { background: var(--greenL); color: var(--green); border: 1px solid rgba(34,197,94,0.3); }
+.badge-booked { background: var(--redL); color: var(--red); border: 1px solid rgba(239,68,68,0.3); }
+.card-fav {
+  position: absolute; top: 10px; right: 10px; z-index: 2;
+  background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 50%; width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text3); font-size: 0.85rem; cursor: pointer; transition: all var(--t);
+  backdrop-filter: blur(8px);
+}
+.card-fav:hover, .card-fav.active { color: var(--red); border-color: rgba(239,68,68,0.4); }
+.card-body { padding: 16px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.card-name { font-weight: 700; font-size: 1rem; line-height: 1.2; color: var(--text); }
+.card-price { font-family: var(--display); font-size: 1.2rem; font-weight: 800; color: var(--orange); }
+.card-price small { font-family: var(--font); font-size: 0.72rem; color: var(--text3); font-weight: 400; }
+.card-meta { display: flex; align-items: center; gap: 5px; font-size: 0.78rem; color: var(--text2); }
+.card-meta i { font-size: 0.75rem; color: var(--orange); }
+.card-owner { display: flex; align-items: center; gap: 8px; padding-top: 10px; border-top: 1px solid var(--border); margin-top: 4px; }
+.owner-avatar-sm { width: 26px; height: 26px; border-radius: 50%; background: var(--orange); display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700; color: white; flex-shrink: 0; }
+.owner-info { flex: 1; min-width: 0; }
+.owner-name { font-size: 0.78rem; font-weight: 600; color: var(--text2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.owner-rating { display: flex; align-items: center; gap: 3px; font-size: 0.7rem; color: var(--yellow); font-weight: 600; }
+.card-action { margin-top: 10px; }
+
+/* =========================================
+   EMPTY STATE
+   ========================================= */
+.empty-state { text-align: center; padding: 80px 20px; display: none; }
+.empty-state .e-icon { font-size: 3rem; color: var(--text3); margin-bottom: 16px; }
+.empty-state h3 { font-family: var(--display); font-size: 1.2rem; color: var(--text2); margin-bottom: 8px; }
+.empty-state p { color: var(--text3); font-size: 0.88rem; }
+
+/* =========================================
+   COMMISSION BOX
+   ========================================= */
+.commission-box {
+  background: linear-gradient(135deg, rgba(255,107,53,0.08), rgba(255,107,53,0.03));
+  border: 1px solid var(--orange);
+  border-radius: var(--r); padding: 16px 20px; margin: 16px 0;
+  display: flex; align-items: flex-start; gap: 12px;
+}
+.commission-box .cb-icon { font-size: 1.2rem; color: var(--orange); margin-top: 2px; }
+.commission-box h4 { font-size: 0.88rem; font-weight: 700; color: var(--orange); margin-bottom: 4px; }
+.commission-box p { font-size: 0.8rem; color: var(--text2); line-height: 1.5; }
+.commission-breakdown {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px;
+}
+.cb-item {
+  background: var(--bg3); border-radius: var(--r2); padding: 8px 10px;
+  border: 1px solid var(--border);
+}
+.cb-item .cb-val { font-family: var(--display); font-size: 1rem; font-weight: 800; }
+.cb-item .cb-lbl { font-size: 0.72rem; color: var(--text3); }
+.cb-item.owner { border-color: rgba(34,197,94,0.3); }
+.cb-item.owner .cb-val { color: var(--green); }
+.cb-item.platform { border-color: rgba(255,107,53,0.3); }
+.cb-item.platform .cb-val { color: var(--orange); }
+
+/* =========================================
+   MODAL
+   ========================================= */
+.overlay {
+  display: none; position: fixed; inset: 0; z-index: 900;
+  background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+  align-items: center; justify-content: center; padding: 20px;
+}
+.overlay.open { display: flex; animation: fadeIn 0.2s; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.modal {
+  background: var(--surface); border: 1px solid var(--border2);
+  border-radius: 20px; box-shadow: var(--shadow2);
+  width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto;
+  padding: 32px 28px 24px; position: relative;
+  animation: slideUp 0.28s cubic-bezier(.4,0,.2,1);
+}
+@keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.modal-close {
+  position: absolute; top: 16px; right: 16px;
+  background: var(--surface2); border: 1px solid var(--border); border-radius: 50%;
+  width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
+  color: var(--text2); cursor: pointer; font-size: 0.9rem; transition: all var(--t);
+}
+.modal-close:hover { background: var(--redL); color: var(--red); border-color: rgba(239,68,68,0.3); }
+.modal-title { font-family: var(--display); font-size: 1.25rem; font-weight: 800; margin-bottom: 24px; display: flex; align-items: center; gap: 10px; }
+.modal-title .mt-icon { color: var(--orange); }
+
+/* =========================================
+   FORM
+   ========================================= */
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 0.82rem; font-weight: 600; color: var(--text2); margin-bottom: 6px; }
+.form-group label .req { color: var(--red); }
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%; background: var(--bg3); border: 1px solid var(--border);
+  border-radius: var(--r2); padding: 11px 14px;
+  color: var(--text); font-family: var(--font); font-size: 0.9rem; outline: none;
+  transition: border var(--t), box-shadow var(--t);
+}
+.form-group input::placeholder, .form-group textarea::placeholder { color: var(--text3); }
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  border-color: var(--orange); box-shadow: 0 0 0 3px var(--orangeL);
+}
+.form-group select { cursor: pointer; }
+.form-group select option { background: var(--surface2); }
+.form-group textarea { resize: vertical; min-height: 80px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-err { color: var(--red); font-size: 0.75rem; font-weight: 600; margin-top: 4px; display: none; }
+.form-group.has-err input, .form-group.has-err select { border-color: var(--red); }
+.form-group.has-err .form-err { display: block; }
+.form-hint { font-size: 0.75rem; color: var(--text3); margin-top: 4px; }
+
+/* Image upload */
+.img-upload-area {
+  border: 2px dashed var(--border); border-radius: var(--r);
+  padding: 24px; text-align: center; cursor: pointer; transition: all var(--t);
+  background: var(--bg3); position: relative; overflow: hidden;
+}
+.img-upload-area:hover, .img-upload-area.drag-over { border-color: var(--orange); background: var(--orangeL); }
+.img-upload-area input[type="file"] { display: none; }
+.img-upload-area .up-icon { font-size: 2rem; color: var(--text3); margin-bottom: 8px; }
+.img-upload-area p { font-size: 0.82rem; color: var(--text2); }
+.img-upload-area span { font-size: 0.75rem; color: var(--text3); }
+.img-preview { width: 100%; max-height: 200px; object-fit: cover; border-radius: var(--r2); display: none; margin-top: 10px; }
+.img-preview.show { display: block; }
+
+/* Modal footer */
+.modal-footer { display: flex; gap: 10px; margin-top: 20px; }
+.modal-footer .btn { flex: 1; }
+
+/* =========================================
+   AUTH MODAL
+   ========================================= */
+.auth-tabs { display: flex; gap: 0; margin-bottom: 24px; background: var(--bg3); border-radius: var(--r2); padding: 4px; }
+.auth-tab { flex: 1; padding: 8px; text-align: center; font-weight: 600; font-size: 0.88rem; cursor: pointer; border-radius: 6px; transition: all var(--t); color: var(--text2); }
+.auth-tab.active { background: var(--orange); color: white; }
+.auth-divider { text-align: center; color: var(--text3); font-size: 0.8rem; margin: 16px 0; display: flex; align-items: center; gap: 10px; }
+.auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* =========================================
+   USER PROFILE PANEL
+   ========================================= */
+.profile-panel {
+  background: var(--surface); border: 1px solid var(--border2); border-radius: 20px;
+  width: 100%; max-width: 420px; padding: 28px; position: relative;
+  animation: slideUp 0.28s cubic-bezier(.4,0,.2,1);
+}
+.profile-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+.profile-avatar {
+  width: 60px; height: 60px; border-radius: 50%; background: var(--orange);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--display); font-size: 1.4rem; font-weight: 800; color: white;
+  border: 2px solid rgba(255,107,53,0.4);
+}
+.profile-info h3 { font-family: var(--display); font-size: 1.1rem; font-weight: 800; }
+.profile-info p { font-size: 0.82rem; color: var(--text2); margin-top: 2px; }
+.profile-rating { display: flex; align-items: center; gap: 4px; font-size: 0.82rem; color: var(--yellow); font-weight: 600; margin-top: 4px; }
+.profile-rating span { color: var(--text3); font-weight: 400; }
+.profile-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+.pstat { background: var(--bg3); border-radius: var(--r2); padding: 12px; text-align: center; border: 1px solid var(--border); }
+.pstat-num { font-family: var(--display); font-size: 1.3rem; font-weight: 800; color: var(--orange); }
+.pstat-lbl { font-size: 0.7rem; color: var(--text3); font-weight: 500; margin-top: 2px; }
+
+/* =========================================
+   RATING STARS
+   ========================================= */
+.star-rating { display: flex; gap: 6px; }
+.star { font-size: 1.4rem; cursor: pointer; color: var(--text3); transition: color var(--t); }
+.star.active, .star:hover { color: var(--yellow); }
+.star-display { display: inline-flex; gap: 2px; }
+.star-display .s { font-size: 0.8rem; color: var(--text3); }
+.star-display .s.filled { color: var(--yellow); }
+
+/* =========================================
+   RENT DETAILS
+   ========================================= */
+.rent-item-preview {
+  display: flex; gap: 14px; align-items: center;
+  background: var(--bg3); border: 1px solid var(--border); border-radius: var(--r2); padding: 14px; margin-bottom: 16px;
+}
+.rent-item-preview img { width: 72px; height: 54px; object-fit: cover; border-radius: 8px; }
+.rip-name { font-weight: 700; font-size: 0.95rem; }
+.rip-price { color: var(--orange); font-weight: 700; font-size: 0.88rem; margin-top: 2px; }
+.rip-meta { font-size: 0.78rem; color: var(--text2); margin-top: 2px; }
+.total-box {
+  background: var(--bg3); border: 1px solid var(--border); border-radius: var(--r2); padding: 14px; margin: 12px 0;
+}
+.total-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; padding: 3px 0; }
+.total-row.final { font-weight: 700; font-size: 1rem; border-top: 1px solid var(--border); padding-top: 8px; margin-top: 4px; }
+.total-row .label { color: var(--text2); }
+.total-row .val { font-weight: 600; }
+.total-row.final .val { color: var(--orange); font-family: var(--display); font-size: 1.1rem; }
+
+/* =========================================
+   REVIEWS SECTION
+   ========================================= */
+.reviews-section { margin-top: 32px; }
+.review-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 16px; margin-bottom: 12px;
+}
+.review-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.review-meta { font-size: 0.75rem; color: var(--text3); }
+.review-text { font-size: 0.85rem; color: var(--text2); line-height: 1.5; }
+
+/* =========================================
+   MY RENTALS PANEL
+   ========================================= */
+.rental-item {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 14px; margin-bottom: 10px;
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+}
+.rental-img { width: 60px; height: 46px; object-fit: cover; border-radius: 8px; flex-shrink: 0; }
+.rental-info { flex: 1; min-width: 0; }
+.rental-name { font-weight: 700; font-size: 0.9rem; }
+.rental-dates { font-size: 0.78rem; color: var(--text2); margin-top: 2px; }
+.rental-status {
+  padding: 4px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 700;
+}
+.rental-status.active { background: var(--greenL); color: var(--green); border: 1px solid rgba(34,197,94,0.3); }
+.rental-status.completed { background: var(--surface2); color: var(--text2); border: 1px solid var(--border); }
+
+/* =========================================
+   TOAST
+   ========================================= */
+.toasts {
+  position: fixed; bottom: 24px; right: 20px; z-index: 2000;
+  display: flex; flex-direction: column; gap: 8px; align-items: flex-end;
+}
+.toast {
+  background: var(--surface2); border: 1px solid var(--border2); color: var(--text);
+  padding: 12px 18px; border-radius: 10px; font-size: 0.87rem; font-weight: 600;
+  box-shadow: var(--shadow); display: flex; align-items: center; gap: 10px; max-width: 320px;
+  animation: toastIn 0.3s cubic-bezier(.4,0,.2,1);
+}
+.toast.ok { border-left: 3px solid var(--green); }
+.toast.err { border-left: 3px solid var(--red); }
+.toast.info { border-left: 3px solid var(--orange); }
+@keyframes toastIn { from { transform: translateX(50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+/* =========================================
+   LOADING
+   ========================================= */
+.loading {
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  padding: 60px; color: var(--text2); font-size: 0.9rem;
+}
+.spin { width: 24px; height: 24px; border: 2px solid var(--border); border-top-color: var(--orange); border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+@media (max-width: 900px) { .nav-search { max-width: 260px; } }
+@media (max-width: 700px) {
+  .sidebar { position: fixed; left: 0; top: 64px; transform: translateX(-110%); z-index: 200; height: calc(100vh - 64px); }
+  .sidebar.open { transform: translateX(0); }
+  .hamburger { display: block; }
+  .main { padding: 16px 14px 40px; }
+  .hero { padding: 24px 20px; }
+  .items-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form-row { grid-template-columns: 1fr; }
+  .modal { padding: 24px 18px 18px; }
+  .nav-logo .nav-text { display: none; }
+}
+@media (max-width: 420px) {
+  .items-grid { grid-template-columns: 1fr; }
+  .hero { flex-direction: column; }
+}
+
+/* Ripple */
+.ripple { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.2); transform: scale(0); animation: rpl 0.5s linear; pointer-events: none; width: 80px; height: 80px; margin: -40px; }
+@keyframes rpl { to { transform: scale(4); opacity: 0; } }
+
+/* Section */
+.section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.section-head h3 { font-family: var(--display); font-size: 1rem; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+.section-head h3 i { color: var(--orange); }
+
+/* Tab bar for modals */
+.tab-bar { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+.tab-item { padding: 8px 16px; font-size: 0.85rem; font-weight: 600; color: var(--text2); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all var(--t); }
+.tab-item.active { color: var(--orange); border-bottom-color: var(--orange); }
+
+/* Firebase notice */
+.firebase-notice {
+  background: var(--bg3); border: 1px solid var(--border); border-radius: var(--r); padding: 14px 18px;
+  margin-bottom: 20px; font-size: 0.82rem; color: var(--text2); line-height: 1.6;
+}
+.firebase-notice strong { color: var(--orange); }
+</style>
+</head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<nav class="nav">
+  <button class="hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
+  <a href="#" class="nav-logo">
+    <div class="icon-wrap"><i class="fas fa-hammer"></i></div>
+    <span class="nav-text">USKUNALAR<span style="color:var(--orange)">.</span></span>
+  </a>
+  <div class="nav-search">
+    <i class="fas fa-search s-icon"></i>
+    <input type="text" id="searchInput" placeholder="Asbob qidirish... (drel, perforator...)"/>
+  </div>
+  <div class="nav-actions">
+    <button class="nav-btn" id="favBtn" title="Sevimlilar">
+      <i class="fas fa-heart"></i>
+      <span class="nav-badge" id="favBadge">0</span>
+    </button>
+    <button class="nav-btn" id="rentalsBtn" title="Mening ijaralarim">
+      <i class="fas fa-clipboard-list"></i>
+    </button>
+    <div id="authArea"></div>
+  </div>
+</nav>
+
+<!-- ===================== LAYOUT ===================== -->
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main">
+
+    <!-- Hero -->
+    <div class="hero">
+      <div>
+        <div class="hero-tag"><i class="fas fa-hard-hat"></i> Qurilish platformasi</div>
+        <h1>Kerakli <span>asbobni</span><br/>arzonroq ijaraga oling</h1>
+        <p>Mahalla qurilishchilaridan professional asbob-uskuna ijaraga oling. Tez, ishonchli va foydali.</p>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="hs-num" id="statsItems">0</div>
+            <div class="hs-lbl">Asbob</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hs-num" id="statsUsers">0</div>
+            <div class="hs-lbl">Foydalanuvchi</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hs-num" id="statsRentals">0</div>
+            <div class="hs-lbl">Ijara</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-actions">
+        <button class="btn btn-orange" id="addItemBtn"><i class="fas fa-plus"></i> Asbob qo'shish</button>
+        <button class="btn btn-outline btn-sm" id="learnMoreBtn"><i class="fas fa-info-circle"></i> Qanday ishlaydi?</button>
+      </div>
+    </div>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+      <h2>Mavjud <span>asboblar</span> <span class="item-count" id="countDisplay">0 ta</span></h2>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-ghost btn-sm" id="sortBtn"><i class="fas fa-sort"></i> Tartiblash</button>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters" id="filterBar">
+      <button class="filter-pill active" data-filter="all">Hammasi</button>
+      <button class="filter-pill" data-filter="Perforator">🔩 Perforatorlar</button>
+      <button class="filter-pill" data-filter="Drill">🔧 Drelllar</button>
+      <button class="filter-pill" data-filter="Arra">⚡ Arralar</button>
+      <button class="filter-pill" data-filter="Frezer">🛠️ Frezalar</button>
+      <button class="filter-pill" data-filter="Bolg'a">🔨 Bolg'alar</button>
+      <button class="filter-pill" data-filter="Paxsa">🧱 Paxsa</button>
+      <button class="filter-pill" data-filter="Boshqa">📦 Boshqa</button>
+    </div>
+
+    <!-- Grid -->
+    <div id="itemsGrid" class="items-grid"></div>
+    <div class="empty-state" id="emptyState">
+      <div class="e-icon"><i class="fas fa-toolbox"></i></div>
+      <h3>Hech narsa topilmadi</h3>
+      <p>Birinchi bo'lib asbob qo'shing yoki qidiruvni o'zgartiring.</p>
+    </div>
+    <div class="loading" id="loadingState" style="display:none">
+      <div class="spin"></div> Yuklanmoqda...
+    </div>
+
+  </main>
+</div>
+
+<!-- ===================== TOAST ===================== -->
+<div class="toasts" id="toastContainer"></div>
+
+<!-- ===================== AUTH MODAL ===================== -->
+<div class="overlay" id="authModal">
+  <div class="modal" style="max-width:420px">
+    <button class="modal-close" onclick="closeModal('authModal')"><i class="fas fa-times"></i></button>
+    <div class="auth-tabs">
+      <div class="auth-tab active" id="loginTab" onclick="switchAuthTab('login')">Kirish</div>
+      <div class="auth-tab" id="registerTab" onclick="switchAuthTab('register')">Ro'yxatdan o'tish</div>
+    </div>
+
+    <!-- Login Form -->
+    <div id="loginForm">
+      <div class="firebase-notice">
+        <strong>Demo rejim:</strong> Firebase sozlamalarisiz lokal avtorizatsiya ishlaydi. Haqiqiy loyiha uchun <code>FIREBASE_CONFIG</code> ni to'ldiring.
+      </div>
+      <div class="form-group" id="fg-lemail">
+        <label>Email <span class="req">*</span></label>
+        <input type="email" id="l-email" placeholder="email@example.com"/>
+        <div class="form-err">Email kiriting</div>
+      </div>
+      <div class="form-group" id="fg-lpass">
+        <label>Parol <span class="req">*</span></label>
+        <input type="password" id="l-pass" placeholder="••••••••"/>
+        <div class="form-err">Parol kiriting</div>
+      </div>
+      <button class="btn btn-orange btn-block" onclick="handleLogin()"><i class="fas fa-sign-in-alt"></i> Kirish</button>
+      <div class="auth-divider">yoki</div>
+      <button class="btn btn-outline btn-block" onclick="handleDemoLogin()"><i class="fas fa-user-circle"></i> Demo bilan kirish</button>
+    </div>
+
+    <!-- Register Form -->
+    <div id="registerForm" style="display:none">
+      <div class="form-row">
+        <div class="form-group" id="fg-rfname">
+          <label>Ism <span class="req">*</span></label>
+          <input type="text" id="r-fname" placeholder="Ismingiz"/>
+          <div class="form-err">Ism kiriting</div>
+        </div>
+        <div class="form-group" id="fg-rlname">
+          <label>Familiya <span class="req">*</span></label>
+          <input type="text" id="r-lname" placeholder="Familiyangiz"/>
+          <div class="form-err">Familiya kiriting</div>
+        </div>
+      </div>
+      <div class="form-group" id="fg-rphone">
+        <label>Telefon <span class="req">*</span></label>
+        <input type="tel" id="r-phone" placeholder="+998 90 123 45 67"/>
+        <div class="form-err">Telefon kiriting</div>
+      </div>
+      <div class="form-group" id="fg-remail">
+        <label>Email <span class="req">*</span></label>
+        <input type="email" id="r-email" placeholder="email@example.com"/>
+        <div class="form-err">Email kiriting</div>
+      </div>
+      <div class="form-group" id="fg-rpass">
+        <label>Parol <span class="req">*</span></label>
+        <input type="password" id="r-pass" placeholder="Kamida 6 ta belgi"/>
+        <div class="form-err">Parol (min 6 ta belgi) kiriting</div>
+      </div>
+      <div class="form-group" id="fg-rdistrict">
+        <label>Tuman / Mahalla <span class="req">*</span></label>
+        <input type="text" id="r-district" placeholder="Masalan: Chilonzor"/>
+        <div class="form-err">Tumaningizni kiriting</div>
+      </div>
+      <button class="btn btn-orange btn-block" onclick="handleRegister()"><i class="fas fa-user-plus"></i> Ro'yxatdan o'tish</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ADD ITEM MODAL ===================== -->
+<div class="overlay" id="addModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('addModal')"><i class="fas fa-times"></i></button>
+    <div class="modal-title"><i class="fas fa-plus-circle mt-icon"></i> Yangi asbob qo'shish</div>
+    <div class="form-group" id="fg-iname">
+      <label>Asbob nomi <span class="req">*</span></label>
+      <input type="text" id="i-name" placeholder="Masalan: Bosch Perforator GBH 2-28"/>
+      <div class="form-err">Nomi kiriting</div>
+    </div>
+    <div class="form-row">
+      <div class="form-group" id="fg-icat">
+        <label>Turi <span class="req">*</span></label>
+        <select id="i-cat">
+          <option value="">— Tur tanlang —</option>
+          <option value="Perforator">🔩 Perforator</option>
+          <option value="Drill">🔧 Drel</option>
+          <option value="Arra">⚡ Arra</option>
+          <option value="Frezer">🛠️ Frezer</option>
+          <option value="Bolg'a">🔨 Bolg'a</option>
+          <option value="Paxsa">🧱 Paxsa mashinasi</option>
+          <option value="Boshqa">📦 Boshqa</option>
+        </select>
+        <div class="form-err">Tur tanlang</div>
+      </div>
+      <div class="form-group" id="fg-iprice">
+        <label>Kunlik narx (so'm) <span class="req">*</span></label>
+        <input type="number" id="i-price" placeholder="20000" min="1000"/>
+        <div class="form-err">Narx kiriting</div>
+      </div>
+    </div>
+    <div class="form-group" id="fg-iimg">
+      <label>Asbob rasmi <span class="req">*</span></label>
+      <div class="img-upload-area" id="imgUploadArea" onclick="document.getElementById('imgFile').click()">
+        <input type="file" id="imgFile" accept="image/*" onchange="handleImageSelect(this)"/>
+        <div id="imgPlaceholder">
+          <div class="up-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+          <p>Rasm yuklash uchun bosing yoki tashlang</p>
+          <span>JPG, PNG, WEBP — Max 5MB</span>
+        </div>
+        <img class="img-preview" id="imgPreview" alt="Preview"/>
+      </div>
+      <div class="form-err" id="img-err" style="display:none">Rasm tanlang</div>
+    </div>
+    <div class="form-group" id="fg-idesc">
+      <label>Tavsif <span class="req">*</span></label>
+      <textarea id="i-desc" placeholder="Asbob haqida qo'shimcha ma'lumot: holati, quvvati, xususiyatlari..."></textarea>
+      <div class="form-err">Tavsif kiriting</div>
+    </div>
+    <div class="form-group">
+      <label>Joylashuv (ixtiyoriy)</label>
+      <input type="text" id="i-loc" placeholder="Masalan: Chilonzor 7-kvartal (yo'q bo'lsa, profildan olinadi)"/>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('addModal')">Bekor qilish</button>
+      <button class="btn btn-orange" id="submitItemBtn" onclick="submitItem()"><i class="fas fa-check"></i> Qo'shish</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== RENT MODAL ===================== -->
+<div class="overlay" id="rentModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('rentModal')"><i class="fas fa-times"></i></button>
+    <div class="modal-title"><i class="fas fa-key mt-icon"></i> Ijaraga olish</div>
+    <div id="rentItemPreview"></div>
+    <div class="form-group" id="fg-rdays">
+      <label>Ijara muddati (kun) <span class="req">*</span></label>
+      <input type="number" id="rent-days" value="1" min="1" max="365" oninput="calcRentTotal()"/>
+      <div class="form-err">Kun sonini kiriting</div>
+    </div>
+    <div id="rentTotal"></div>
+    <div id="rentCommission"></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('rentModal')">Bekor qilish</button>
+      <button class="btn btn-orange" onclick="confirmRent()"><i class="fas fa-handshake"></i> Tasdiqlash</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== PROFILE MODAL ===================== -->
+<div class="overlay" id="profileModal">
+  <div class="modal" style="max-width:440px">
+    <button class="modal-close" onclick="closeModal('profileModal')"><i class="fas fa-times"></i></button>
+    <div id="profileContent"></div>
+  </div>
+</div>
+
+<!-- ===================== RENTALS MODAL ===================== -->
+<div class="overlay" id="rentalsModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('rentalsModal')"><i class="fas fa-times"></i></button>
+    <div class="modal-title"><i class="fas fa-clipboard-list mt-icon"></i> Mening ijaralarim</div>
+    <div id="rentalsContent"></div>
+  </div>
+</div>
+
+<!-- ===================== RATING MODAL ===================== -->
+<div class="overlay" id="ratingModal">
+  <div class="modal" style="max-width:400px">
+    <button class="modal-close" onclick="closeModal('ratingModal')"><i class="fas fa-times"></i></button>
+    <div class="modal-title"><i class="fas fa-star mt-icon"></i> Baholash</div>
+    <div id="ratingContent"></div>
+  </div>
+</div>
+
+<!-- ===================== HOW IT WORKS ===================== -->
+<div class="overlay" id="howModal">
+  <div class="modal" style="max-width:500px">
+    <button class="modal-close" onclick="closeModal('howModal')"><i class="fas fa-times"></i></button>
+    <div class="modal-title"><i class="fas fa-info-circle mt-icon"></i> Qanday ishlaydi?</div>
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <div style="display:flex;gap:14px;align-items:flex-start">
+        <div style="width:40px;height:40px;background:var(--orangeL);border:1px solid var(--orange);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--orange);flex-shrink:0">1</div>
+        <div><strong style="display:block;margin-bottom:4px">Ro'yxatdan o'ting</strong><span style="color:var(--text2);font-size:0.85rem">Bepul hisob yarating va platformaga kiring.</span></div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start">
+        <div style="width:40px;height:40px;background:var(--orangeL);border:1px solid var(--orange);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--orange);flex-shrink:0">2</div>
+        <div><strong style="display:block;margin-bottom:4px">Asbob qo'shing yoki topib ijaraga oling</strong><span style="color:var(--text2);font-size:0.85rem">O'zingizning asboblaringizni ro'yxatga kiriting yoki boshqalardan ijaraga oling.</span></div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start">
+        <div style="width:40px;height:40px;background:var(--orangeL);border:1px solid var(--orange);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--orange);flex-shrink:0">3</div>
+        <div><strong style="display:block;margin-bottom:4px">12% komissiya — platforma orqali</strong><span style="color:var(--text2);font-size:0.85rem">Siz to'lagan puldan 12% platforma komissiyasi olinadi. Qolgan 88% egasiga boradi.</span></div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start">
+        <div style="width:40px;height:40px;background:var(--orangeL);border:1px solid var(--orange);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--orange);flex-shrink:0">4</div>
+        <div><strong style="display:block;margin-bottom:4px">Baholang</strong><span style="color:var(--text2);font-size:0.85rem">Ijara tugagach, egani baholang. Yaxshi reytingli egalardan ishonchli xizmat oling.</span></div>
+      </div>
+    </div>
+    <div class="commission-box" style="margin-top:20px">
+      <i class="fas fa-percent cb-icon"></i>
+      <div>
+        <h4>Komissiya tizimi</h4>
+        <p>Narx 100 000 so'm bo'lsa: siz 100 000 to'laysiz, egasi 88 000 oladi, platforma 12 000 oladi. Bu xavfsiz to'lov kafolati beradi.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== JAVASCRIPT ===================== -->
+<script>
+/* ============================================================
+   FIREBASE CONFIGURATION
+   Replace with your real Firebase config for production.
+   Get it from: console.firebase.google.com → Project Settings
+   ============================================================ */
+const FIREBASE_CONFIG = {
+  // apiKey: "YOUR_API_KEY",
+  // authDomain: "YOUR_PROJECT.firebaseapp.com",
+  // projectId: "YOUR_PROJECT_ID",
+  // storageBucket: "YOUR_PROJECT.appspot.com",
+  // messagingSenderId: "SENDER_ID",
+  // appId: "APP_ID"
+};
+
+/* ============================================================
+   APP STATE — localStorage-based demo mode (no Firebase needed)
+   ============================================================ */
+const COMMISSION_RATE = 0.12; // 12%
+
+// In-memory + localStorage store
+let state = {
+  currentUser: null,
+  currentFilter: 'all',
+  currentSearch: '',
+  currentRentId: null,
+  currentRatingRentId: null,
+  selectedImage: null,   // base64 string
+  sortMode: 'newest',
+  favIds: new Set(),
+};
+
+// DB helpers (localStorage as fallback DB)
+const DB = {
+  get(key) {
+    try { return JSON.parse(localStorage.getItem(key)) || null; } catch { return null; }
+  },
+  set(key, val) {
+    try { localStorage.setItem(key, JSON.stringify(val)); } catch {}
+  },
+  getList(key) { return this.get(key) || []; },
+  addToList(key, item) {
+    const list = this.getList(key);
+    list.unshift(item);
+    this.set(key, list);
+    return list;
+  },
+  updateInList(key, id, update) {
+    const list = this.getList(key);
+    const idx = list.findIndex(i => i.id === id);
+    if (idx >= 0) { list[idx] = {...list[idx], ...update}; this.set(key, list); }
+    return list;
+  },
+};
+
+/* ============================================================
+   SEED DATA — first run
+   ============================================================ */
+function seedData() {
+  if (DB.get('seeded')) return;
+  const demoUser = { id: 'demo1', name: 'Jasur Toshmatov', email: 'demo@ijara.uz', phone: '+998901234567', district: 'Chilonzor', rating: 4.8, ratingCount: 12, joinedAt: Date.now() - 8640000000 };
+  const users = [demoUser];
+  DB.set('users', users);
+
+  const items = [
+    { id: 'item1', ownerId: 'demo1', ownerName: 'Jasur Toshmatov', name: 'Bosch GBH 2-28 Perforator', category: 'Perforator', price: 25000, location: 'Chilonzor 7-kvartal', desc: '800W kuchli perforator. Beton, tosh va yog\'och uchun. SDS+ tizimi. 3 rejim: parma, zarb+parma, zarb. Quti bilan birga.', img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=375&fit=crop', booked: false, favCount: 3, createdAt: Date.now()-1000000 },
+    { id: 'item2', ownerId: 'demo1', ownerName: 'Jasur Toshmatov', name: 'Makita DF333D Drel', category: 'Drill', price: 18000, location: 'Chilonzor', desc: '12V simsiz drel-otvertka. 2 ta batareya bilan. Engil va qulay, tor joylarda ishlash uchun ideal.', img: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=500&h=375&fit=crop', booked: false, favCount: 1, createdAt: Date.now()-2000000 },
+    { id: 'item3', ownerId: 'demo1', ownerName: 'Jasur Toshmatov', name: 'Dewalt DCS570 Disk Arra', category: 'Arra', price: 35000, location: 'Chilonzor', desc: '18V 184mm disk arra. 0-57° qiyalik. Lazerli yo\'naltiruvchi. Har qanday yog\'och kesishga mos.', img: 'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=500&h=375&fit=crop', booked: true, favCount: 5, createdAt: Date.now()-3000000 },
+    { id: 'item4', ownerId: 'demo1', ownerName: 'Jasur Toshmatov', name: 'Hilti TE 6-A Perforator', category: 'Perforator', price: 40000, location: 'Yunusobod', desc: 'Professional Hilti perforator. 22V, 2.6J zarb kuchi. Devor va toshda teshish uchun eng yaxshi tanlov.', img: 'https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=500&h=375&fit=crop', booked: false, favCount: 8, createdAt: Date.now()-4000000 },
+    { id: 'item5', ownerId: 'demo1', ownerName: 'Jasur Toshmatov', name: 'Metabo W 18 Bolg\'a', category: "Bolg'a", price: 15000, location: 'Mirzo Ulug\'bek', desc: '5kg salmaqdagi professional bolg\'a to\'plami. Mis, temir va boshqa metallar uchun.', img: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=500&h=375&fit=crop', booked: false, favCount: 2, createdAt: Date.now()-5000000 },
+    { id: 'item6', ownerId: 'demo1', ownerName: 'Jasur Toshmatov', name: 'Makita BO5041 Frezer', category: 'Frezer', price: 28000, location: 'Shayxontohur', desc: '300W vibrasion frezer. 200x200mm taglik. Yog\'och sirtlarni silliqlash uchun ideal. 8000-13000 rpm.', img: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500&h=375&fit=crop', booked: false, favCount: 4, createdAt: Date.now()-6000000 },
+  ];
+  DB.set('items', items);
+  DB.set('rentals', []);
+  DB.set('reviews', []);
+  DB.set('seeded', true);
+}
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+const sidebarDefs = [
+  { icon: 'fa-th-large', label: 'Hammasi', filter: 'all', tip: 'Hammasi' },
+  { icon: 'fa-circle-dot', label: 'Perfora-tor', filter: 'Perforator', tip: 'Perforatorlar' },
+  { icon: 'fa-screwdriver-wrench', label: 'Drelllar', filter: 'Drill', tip: 'Drelllar' },
+  { icon: 'fa-bolt', label: 'Arralar', filter: 'Arra', tip: 'Arralar' },
+  { icon: 'fa-tools', label: 'Frezalar', filter: 'Frezer', tip: 'Frezalar' },
+  { icon: 'fa-hammer', label: "Bolg'alar", filter: "Bolg'a", tip: "Bolg'alar" },
+  { icon: 'fa-cube', label: 'Paxsa', filter: 'Paxsa', tip: 'Paxsa mashinalari' },
+  { icon: 'fa-box', label: 'Boshqa', filter: 'Boshqa', tip: 'Boshqa asboblar' },
+];
+
+function renderSidebar() {
+  const el = document.getElementById('sidebar');
+  el.innerHTML = '';
+  sidebarDefs.forEach((d, i) => {
+    const div = document.createElement('div');
+    div.className = 's-item' + (state.currentFilter === d.filter ? ' active' : '');
+    div.setAttribute('data-tip', d.tip);
+    div.innerHTML = `<i class="fas ${d.icon} si"></i><span class="sl">${d.label}</span>`;
+    div.onclick = () => { applyFilter(d.filter); document.getElementById('sidebar').classList.remove('open'); };
+    el.appendChild(div);
+    if (i === 0) { const dv = document.createElement('div'); dv.className = 's-divider'; el.appendChild(dv); }
+  });
+}
+
+/* ============================================================
+   FILTER / SORT / SEARCH
+   ============================================================ */
+function applyFilter(filter) {
+  state.currentFilter = filter;
+  renderSidebar();
+  document.querySelectorAll('.filter-pill').forEach(b => b.classList.toggle('active', b.dataset.filter === filter));
+  renderItems();
+}
+
+document.getElementById('searchInput').addEventListener('input', e => {
+  state.currentSearch = e.target.value.trim().toLowerCase();
+  renderItems();
+});
+
+document.getElementById('filterBar').addEventListener('click', e => {
+  const pill = e.target.closest('.filter-pill');
+  if (pill) applyFilter(pill.dataset.filter);
+});
+
+document.getElementById('sortBtn').addEventListener('click', () => {
+  state.sortMode = state.sortMode === 'newest' ? 'price_asc' : state.sortMode === 'price_asc' ? 'price_desc' : 'newest';
+  const labels = { newest: 'Eng yangi', price_asc: 'Narx ↑', price_desc: 'Narx ↓' };
+  document.getElementById('sortBtn').innerHTML = `<i class="fas fa-sort"></i> ${labels[state.sortMode]}`;
+  renderItems();
+});
+
+function getFilteredItems() {
+  let items = DB.getList('items');
+  if (state.currentFilter !== 'all') items = items.filter(i => i.category === state.currentFilter);
+  if (state.currentSearch) items = items.filter(i =>
+    i.name.toLowerCase().includes(state.currentSearch) ||
+    (i.location||'').toLowerCase().includes(state.currentSearch) ||
+    (i.desc||'').toLowerCase().includes(state.currentSearch)
+  );
+  if (state.sortMode === 'price_asc') items.sort((a,b) => a.price - b.price);
+  else if (state.sortMode === 'price_desc') items.sort((a,b) => b.price - a.price);
+  return items;
+}
+
+/* ============================================================
+   FORMAT HELPERS
+   ============================================================ */
+const fmt = n => Number(n).toLocaleString('uz-UZ');
+function starsHtml(rating, size='0.8rem') {
+  let h = '<span class="star-display">';
+  for (let i = 1; i <= 5; i++) h += `<span class="s ${i <= Math.round(rating) ? 'filled' : ''}" style="font-size:${size}">★</span>`;
+  h += '</span>'; return h;
+}
+function avatarInitials(name) {
+  if (!name) return '?';
+  const parts = name.split(' ');
+  return (parts[0][0] + (parts[1]?.[0] || '')).toUpperCase();
+}
+
+/* ============================================================
+   RENDER ITEMS
+   ============================================================ */
+function renderItems() {
+  const grid = document.getElementById('itemsGrid');
+  const empty = document.getElementById('emptyState');
+  const countEl = document.getElementById('countDisplay');
+  const filtered = getFilteredItems();
+
+  grid.innerHTML = '';
+  countEl.textContent = `${filtered.length} ta`;
+
+  if (!filtered.length) { empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+
+  filtered.forEach(item => grid.appendChild(createCard(item)));
+  updateStats();
+  updateFavBadge();
+}
+
+function createCard(item) {
+  const isFav = state.favIds.has(item.id);
+  const user = DB.getList('users').find(u => u.id === item.ownerId);
+  const rating = user?.rating || 0;
+  const ratingCount = user?.ratingCount || 0;
+
+  const card = document.createElement('div');
+  card.className = 'item-card';
+  card.innerHTML = `
+    <div class="card-img">
+      <img src="${item.img}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/400x300/222/444?text=Rasm+yo\'q'"/>
+      <div class="card-badge ${item.booked ? 'badge-booked' : 'badge-available'}">
+        <i class="fas ${item.booked ? 'fa-lock' : 'fa-check'}"></i>
+        ${item.booked ? 'Band qilingan' : 'Mavjud'}
+      </div>
+      <button class="card-fav ${isFav ? 'active' : ''}" data-id="${item.id}" title="Sevimlilar">
+        <i class="fas fa-heart"></i>
+      </button>
+    </div>
+    <div class="card-body">
+      <div class="card-name">${item.name}</div>
+      <div class="card-price">${fmt(item.price)} <small>so'm/kun</small></div>
+      <div class="card-meta"><i class="fas fa-map-marker-alt"></i> ${item.location || 'Toshkent'}</div>
+      <div class="card-owner">
+        <div class="owner-avatar-sm">${avatarInitials(item.ownerName)}</div>
+        <div class="owner-info">
+          <div class="owner-name">${item.ownerName}</div>
+          <div class="owner-rating">
+            ${starsHtml(rating)} <span style="color:var(--text3);font-weight:400">(${ratingCount})</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-action">
+        ${item.booked
+          ? `<button class="btn btn-ghost btn-sm btn-block" disabled style="opacity:0.5;cursor:not-allowed"><i class="fas fa-ban"></i> Band</button>`
+          : `<button class="btn btn-orange btn-sm btn-block rent-btn" data-id="${item.id}"><i class="fas fa-key"></i> Ijaraga olish</button>`
+        }
+      </div>
+    </div>`;
+
+  // fav
+  card.querySelector('.card-fav').addEventListener('click', e => {
+    e.stopPropagation();
+    const id = e.currentTarget.dataset.id;
+    if (state.favIds.has(id)) { state.favIds.delete(id); toast('Sevimlilardan olib tashlandi', 'info'); }
+    else { state.favIds.add(id); toast('❤️ Sevimlilarga qo\'shildi', 'ok'); }
+    updateFavBadge();
+    e.currentTarget.classList.toggle('active', state.favIds.has(id));
+  });
+
+  // rent
+  const rb = card.querySelector('.rent-btn');
+  if (rb) rb.addEventListener('click', e => { e.stopPropagation(); openRentModal(rb.dataset.id); addRipple(rb, e); });
+
+  return card;
+}
+
+/* ============================================================
+   STATS
+   ============================================================ */
+function updateStats() {
+  const items = DB.getList('items');
+  const users = DB.getList('users');
+  const rentals = DB.getList('rentals');
+  animateCount('statsItems', items.length);
+  animateCount('statsUsers', users.length);
+  animateCount('statsRentals', rentals.length);
+}
+
+function animateCount(id, target) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  let cur = 0, step = Math.ceil(target / 20);
+  const iv = setInterval(() => {
+    cur = Math.min(cur + step, target);
+    el.textContent = cur;
+    if (cur >= target) clearInterval(iv);
+  }, 40);
+}
+
+function updateFavBadge() {
+  const badge = document.getElementById('favBadge');
+  const count = state.favIds.size;
+  badge.textContent = count;
+  badge.style.display = count > 0 ? 'flex' : 'none';
+}
+
+/* ============================================================
+   AUTH SYSTEM
+   ============================================================ */
+function switchAuthTab(tab) {
+  document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
+  document.getElementById('registerForm').style.display = tab === 'register' ? 'block' : 'none';
+  document.getElementById('loginTab').classList.toggle('active', tab === 'login');
+  document.getElementById('registerTab').classList.toggle('active', tab === 'register');
+}
+
+function handleLogin() {
+  const email = document.getElementById('l-email').value.trim();
+  const pass = document.getElementById('l-pass').value.trim();
+  let valid = true;
+  if (!email) { document.getElementById('fg-lemail').classList.add('has-err'); valid = false; }
+  else document.getElementById('fg-lemail').classList.remove('has-err');
+  if (!pass) { document.getElementById('fg-lpass').classList.add('has-err'); valid = false; }
+  else document.getElementById('fg-lpass').classList.remove('has-err');
+  if (!valid) return;
+
+  const users = DB.getList('users');
+  const user = users.find(u => u.email === email);
+  if (!user || user.password !== btoa(pass)) { toast('Email yoki parol noto\'g\'ri', 'err'); return; }
+  loginUser(user);
+  closeModal('authModal');
+}
+
+function handleDemoLogin() {
+  const users = DB.getList('users');
+  const demo = users.find(u => u.id === 'demo1');
+  if (demo) { loginUser(demo); closeModal('authModal'); }
+}
+
+function handleRegister() {
+  const fname = document.getElementById('r-fname').value.trim();
+  const lname = document.getElementById('r-lname').value.trim();
+  const phone = document.getElementById('r-phone').value.trim();
+  const email = document.getElementById('r-email').value.trim();
+  const pass = document.getElementById('r-pass').value.trim();
+  const district = document.getElementById('r-district').value.trim();
+  const checks = [
+    [fname, 'fg-rfname'], [lname, 'fg-rlname'], [phone, 'fg-rphone'],
+    [email, 'fg-remail'], [pass.length >= 6 ? pass : '', 'fg-rpass'], [district, 'fg-rdistrict']
+  ];
+  let valid = true;
+  checks.forEach(([val, id]) => {
+    if (!val) { document.getElementById(id).classList.add('has-err'); valid = false; }
+    else document.getElementById(id).classList.remove('has-err');
+  });
+  if (!valid) { toast('Barcha maydonlarni to\'ldiring', 'err'); return; }
+
+  const users = DB.getList('users');
+  if (users.find(u => u.email === email)) { toast('Bu email allaqachon ro\'yxatdan o\'tgan', 'err'); return; }
+
+  const newUser = {
+    id: 'u' + Date.now(), name: `${fname} ${lname}`, email, password: btoa(pass),
+    phone, district, rating: 0, ratingCount: 0, joinedAt: Date.now()
+  };
+  DB.addToList('users', newUser);
+  loginUser(newUser);
+  closeModal('authModal');
+  toast('🎉 Muvaffaqiyatli ro\'yxatdan o\'tdingiz!', 'ok');
+}
+
+function loginUser(user) {
+  state.currentUser = user;
+  DB.set('currentUserId', user.id);
+  renderAuthArea();
+  toast(`👋 Xush kelibsiz, ${user.name.split(' ')[0]}!`, 'ok');
+}
+
+function logout() {
+  state.currentUser = null;
+  DB.set('currentUserId', null);
+  renderAuthArea();
+  closeModal('profileModal');
+  toast('Tizimdan chiqildi', 'info');
+}
+
+function renderAuthArea() {
+  const el = document.getElementById('authArea');
+  if (state.currentUser) {
+    el.innerHTML = `
+      <button class="nav-user-btn" onclick="openProfileModal()">
+        <div class="nav-avatar">${avatarInitials(state.currentUser.name)}</div>
+        <span class="nav-user-name">${state.currentUser.name.split(' ')[0]}</span>
+      </button>`;
+  } else {
+    el.innerHTML = `<button class="btn btn-orange btn-sm" onclick="openModal('authModal')"><i class="fas fa-sign-in-alt"></i> Kirish</button>`;
+  }
+}
+
+function restoreSession() {
+  const uid = DB.get('currentUserId');
+  if (uid) {
+    const user = DB.getList('users').find(u => u.id === uid);
+    if (user) state.currentUser = user;
+  }
+  renderAuthArea();
+}
+
+/* ============================================================
+   PROFILE MODAL
+   ============================================================ */
+function openProfileModal() {
+  if (!state.currentUser) { openModal('authModal'); return; }
+  const u = state.currentUser;
+  const myItems = DB.getList('items').filter(i => i.ownerId === u.id);
+  const myRentals = DB.getList('rentals').filter(r => r.renterId === u.id);
+  const reviews = DB.getList('reviews').filter(r => r.ownerId === u.id);
+
+  let reviewsHtml = '';
+  if (reviews.length) {
+    reviewsHtml = reviews.slice(0, 3).map(r => `
+      <div class="review-card">
+        <div class="review-header">
+          <div class="owner-avatar-sm">${avatarInitials(r.renterName)}</div>
+          <div>
+            <div style="font-size:0.82rem;font-weight:600">${r.renterName}</div>
+            ${starsHtml(r.rating)}
+          </div>
+          <span class="review-meta" style="margin-left:auto">${new Date(r.createdAt).toLocaleDateString('uz-UZ')}</span>
+        </div>
+        <div class="review-text">${r.comment || ''}</div>
+      </div>`).join('');
+  } else {
+    reviewsHtml = `<p style="color:var(--text3);font-size:0.85rem;text-align:center;padding:16px 0">Hali sharh yo'q</p>`;
+  }
+
+  document.getElementById('profileContent').innerHTML = `
+    <div class="profile-header">
+      <div class="profile-avatar">${avatarInitials(u.name)}</div>
+      <div class="profile-info">
+        <h3>${u.name}</h3>
+        <p>${u.phone} · ${u.district || ''}</p>
+        <div class="profile-rating">${starsHtml(u.rating, '0.9rem')} <span>${u.rating.toFixed(1)} (${u.ratingCount} baho)</span></div>
+      </div>
+    </div>
+    <div class="profile-stats">
+      <div class="pstat"><div class="pstat-num">${myItems.length}</div><div class="pstat-lbl">Asbob</div></div>
+      <div class="pstat"><div class="pstat-num">${myRentals.length}</div><div class="pstat-lbl">Ijara</div></div>
+      <div class="pstat"><div class="pstat-num">${reviews.length}</div><div class="pstat-lbl">Sharh</div></div>
+    </div>
+    <div class="section-head" style="margin-bottom:12px"><h3><i class="fas fa-star"></i> Sharhlar</h3></div>
+    ${reviewsHtml}
+    <div style="display:flex;gap:10px;margin-top:20px">
+      <button class="btn btn-ghost btn-sm" style="flex:1" onclick="openModal('addModal')"><i class="fas fa-plus"></i> Asbob qo'shish</button>
+      <button class="btn btn-outline btn-sm" style="flex:1" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Chiqish</button>
+    </div>`;
+  openModal('profileModal');
+}
+
+/* ============================================================
+   RENTALS MODAL
+   ============================================================ */
+document.getElementById('rentalsBtn').addEventListener('click', () => {
+  if (!state.currentUser) { openModal('authModal'); return; }
+  const rentals = DB.getList('rentals').filter(r => r.renterId === state.currentUser.id);
+  const items = DB.getList('items');
+
+  let html = '';
+  if (!rentals.length) {
+    html = `<div class="empty-state" style="display:block;padding:40px 0"><div class="e-icon"><i class="fas fa-clipboard-list"></i></div><h3 style="font-size:1rem">Hali ijara yo'q</h3><p>Asbob ijaraga olganingizda bu yerda ko'rsatiladi.</p></div>`;
+  } else {
+    html = rentals.map(r => {
+      const item = items.find(i => i.id === r.itemId);
+      const canRate = r.status === 'active' && !r.rated;
+      return `<div class="rental-item">
+        <img class="rental-img" src="${item?.img || ''}" alt="" onerror="this.style.display='none'"/>
+        <div class="rental-info">
+          <div class="rental-name">${r.itemName}</div>
+          <div class="rental-dates">${r.days} kun · ${fmt(r.totalAmount)} so'm · ${new Date(r.createdAt).toLocaleDateString('uz-UZ')}</div>
+          <div class="rental-dates" style="margin-top:2px">Ega: ${r.ownerName} · ${r.ownerPhone}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">
+          <span class="rental-status active">Faol</span>
+          ${canRate ? `<button class="btn btn-ghost btn-sm" onclick="openRatingModal('${r.id}')"><i class="fas fa-star"></i> Baholash</button>` : ''}
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  document.getElementById('rentalsContent').innerHTML = html;
+  openModal('rentalsModal');
+});
+
+/* ============================================================
+   RENT MODAL
+   ============================================================ */
+function openRentModal(itemId) {
+  if (!state.currentUser) {
+    toast('Ijaraga olish uchun tizimga kiring', 'info');
+    openModal('authModal'); return;
+  }
+  const item = DB.getList('items').find(i => i.id === itemId);
+  if (!item || item.booked) { toast('Bu asbob band qilingan', 'err'); return; }
+  if (item.ownerId === state.currentUser.id) { toast('O\'z asbobingizni ijaraga ololmaysiz', 'err'); return; }
+  state.currentRentId = itemId;
+
+  const owner = DB.getList('users').find(u => u.id === item.ownerId) || {};
+
+  document.getElementById('rentItemPreview').innerHTML = `
+    <div class="rent-item-preview">
+      <img src="${item.img}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/72x54/222/444'"/>
+      <div>
+        <div class="rip-name">${item.name}</div>
+        <div class="rip-price">${fmt(item.price)} so'm/kun</div>
+        <div class="rip-meta"><i class="fas fa-map-marker-alt" style="color:var(--orange)"></i> ${item.location || 'Toshkent'} · Ega: ${item.ownerName}</div>
+        <div class="rip-meta"><i class="fas fa-phone" style="color:var(--orange)"></i> ${owner.phone || item.ownerPhone || ''}</div>
+      </div>
+    </div>`;
+
+  document.getElementById('rent-days').value = 1;
+  calcRentTotal();
+  openModal('rentModal');
+}
+
+function calcRentTotal() {
+  const itemId = state.currentRentId;
+  if (!itemId) return;
+  const item = DB.getList('items').find(i => i.id === itemId);
+  if (!item) return;
+  const days = parseInt(document.getElementById('rent-days').value) || 1;
+  const total = item.price * days;
+  const commission = Math.round(total * COMMISSION_RATE);
+  const ownerAmount = total - commission;
+
+  document.getElementById('rentTotal').innerHTML = `
+    <div class="total-box">
+      <div class="total-row"><span class="label">${fmt(item.price)} so'm × ${days} kun</span><span class="val">${fmt(total)} so'm</span></div>
+      <div class="total-row final"><span class="label">Jami to'lov</span><span class="val">${fmt(total)} so'm</span></div>
+    </div>`;
+
+  document.getElementById('rentCommission').innerHTML = `
+    <div class="commission-box">
+      <i class="fas fa-percent cb-icon"></i>
+      <div>
+        <h4>To'lov taqsimoti (12% komissiya)</h4>
+        <div class="commission-breakdown">
+          <div class="cb-item owner"><div class="cb-val">${fmt(ownerAmount)}</div><div class="cb-lbl">so'm — Ega oladi</div></div>
+          <div class="cb-item platform"><div class="cb-val">${fmt(commission)}</div><div class="cb-lbl">so'm — Platforma (12%)</div></div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function confirmRent() {
+  const days = parseInt(document.getElementById('rent-days').value);
+  if (!days || days < 1) { document.getElementById('fg-rdays').classList.add('has-err'); return; }
+  document.getElementById('fg-rdays').classList.remove('has-err');
+
+  const item = DB.getList('items').find(i => i.id === state.currentRentId);
+  if (!item) return;
+
+  const total = item.price * days;
+  const commission = Math.round(total * COMMISSION_RATE);
+  const owner = DB.getList('users').find(u => u.id === item.ownerId) || {};
+
+  const rental = {
+    id: 'rent' + Date.now(),
+    itemId: item.id,
+    itemName: item.name,
+    itemImg: item.img,
+    renterId: state.currentUser.id,
+    renterName: state.currentUser.name,
+    ownerId: item.ownerId,
+    ownerName: item.ownerName,
+    ownerPhone: owner.phone || '',
+    days, totalAmount: total, commission, ownerAmount: total - commission,
+    status: 'active', rated: false, createdAt: Date.now()
+  };
+
+  DB.addToList('rentals', rental);
+  DB.updateInList('items', item.id, { booked: true });
+  closeModal('rentModal');
+  renderItems();
+  toast(`🎉 "${item.name}" muvaffaqiyatli band qilindi! Ega: ${owner.phone || ''}`, 'ok');
+}
+
+/* ============================================================
+   RATING MODAL
+   ============================================================ */
+let selectedRating = 0;
+function openRatingModal(rentalId) {
+  const rental = DB.getList('rentals').find(r => r.id === rentalId);
+  if (!rental) return;
+  state.currentRatingRentId = rentalId;
+  selectedRating = 0;
+
+  document.getElementById('ratingContent').innerHTML = `
+    <p style="color:var(--text2);font-size:0.88rem;margin-bottom:16px">
+      <strong style="color:var(--text)">"${rental.itemName}"</strong> uchun ${rental.ownerName} ni baholang.
+    </p>
+    <div class="star-rating" id="starRow">
+      ${[1,2,3,4,5].map(n => `<span class="star" data-val="${n}">★</span>`).join('')}
+    </div>
+    <div class="form-group" style="margin-top:16px">
+      <label>Izoh (ixtiyoriy)</label>
+      <textarea id="ratingComment" rows="3" placeholder="Tajribangiz haqida yozing..."></textarea>
+    </div>
+    <button class="btn btn-orange btn-block" style="margin-top:12px" onclick="submitRating()"><i class="fas fa-star"></i> Yuborish</button>`;
+
+  document.getElementById('starRow').addEventListener('click', e => {
+    const star = e.target.closest('.star');
+    if (!star) return;
+    selectedRating = parseInt(star.dataset.val);
+    document.querySelectorAll('#starRow .star').forEach((s, i) => s.classList.toggle('active', i < selectedRating));
+  });
+
+  closeModal('rentalsModal');
+  openModal('ratingModal');
+}
+
+function submitRating() {
+  if (!selectedRating) { toast('Yulduz tanlang', 'err'); return; }
+  const rental = DB.getList('rentals').find(r => r.id === state.currentRatingRentId);
+  if (!rental) return;
+  const comment = document.getElementById('ratingComment').value.trim();
+
+  const review = {
+    id: 'rev' + Date.now(),
+    rentalId: rental.id,
+    itemId: rental.itemId,
+    ownerId: rental.ownerId,
+    renterName: state.currentUser.name,
+    rating: selectedRating, comment, createdAt: Date.now()
+  };
+  DB.addToList('reviews', review);
+  DB.updateInList('rentals', rental.id, { rated: true });
+
+  // Update owner rating
+  const users = DB.getList('users');
+  const owner = users.find(u => u.id === rental.ownerId);
+  if (owner) {
+    const ownerReviews = DB.getList('reviews').filter(r => r.ownerId === owner.id);
+    const avg = ownerReviews.reduce((s, r) => s + r.rating, 0) / ownerReviews.length;
+    DB.updateInList('users', owner.id, { rating: Math.round(avg * 10) / 10, ratingCount: ownerReviews.length });
+  }
+
+  closeModal('ratingModal');
+  renderItems();
+  toast('⭐ Bahoyingiz qabul qilindi. Rahmat!', 'ok');
+}
+
+/* ============================================================
+   ADD ITEM
+   ============================================================ */
+document.getElementById('addItemBtn').addEventListener('click', () => {
+  if (!state.currentUser) { toast('Asbob qo\'shish uchun tizimga kiring', 'info'); openModal('authModal'); return; }
+  openModal('addModal');
+});
+
+function handleImageSelect(input) {
+  if (!input.files || !input.files[0]) return;
+  const file = input.files[0];
+  if (file.size > 5 * 1024 * 1024) { toast('Rasm 5MB dan katta bo\'lmasin', 'err'); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    state.selectedImage = e.target.result;
+    const prev = document.getElementById('imgPreview');
+    prev.src = state.selectedImage;
+    prev.classList.add('show');
+    document.getElementById('imgPlaceholder').style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+}
+
+// Drag-and-drop
+const uploadArea = document.getElementById('imgUploadArea');
+uploadArea.addEventListener('dragover', e => { e.preventDefault(); uploadArea.classList.add('drag-over'); });
+uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('drag-over'));
+uploadArea.addEventListener('drop', e => {
+  e.preventDefault(); uploadArea.classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) {
+    const dt = new DataTransfer(); dt.items.add(file);
+    document.getElementById('imgFile').files = dt.files;
+    handleImageSelect(document.getElementById('imgFile'));
+  }
+});
+
+function submitItem() {
+  const name = document.getElementById('i-name').value.trim();
+  const cat = document.getElementById('i-cat').value;
+  const price = document.getElementById('i-price').value;
+  const desc = document.getElementById('i-desc').value.trim();
+
+  const checks = [[name,'fg-iname'],[cat,'fg-icat'],[price,'fg-iprice'],[desc,'fg-idesc']];
+  let valid = true;
+  checks.forEach(([val, id]) => {
+    if (!val) { document.getElementById(id).classList.add('has-err'); valid = false; }
+    else document.getElementById(id).classList.remove('has-err');
+  });
+  if (!state.selectedImage) { document.getElementById('img-err').style.display = 'block'; valid = false; }
+  else document.getElementById('img-err').style.display = 'none';
+  if (!valid) { toast('Barcha majburiy maydonlarni to\'ldiring', 'err'); return; }
+
+  const loc = document.getElementById('i-loc').value.trim() || state.currentUser.district || 'Toshkent';
+  const newItem = {
+    id: 'item' + Date.now(),
+    ownerId: state.currentUser.id,
+    ownerName: state.currentUser.name,
+    name, category: cat, price: parseInt(price), location: loc,
+    desc, img: state.selectedImage,
+    booked: false, favCount: 0, createdAt: Date.now()
+  };
+
+  DB.addToList('items', newItem);
+  state.selectedImage = null;
+
+  // Reset form
+  document.getElementById('i-name').value = '';
+  document.getElementById('i-cat').value = '';
+  document.getElementById('i-price').value = '';
+  document.getElementById('i-desc').value = '';
+  document.getElementById('i-loc').value = '';
+  document.getElementById('imgPreview').classList.remove('show');
+  document.getElementById('imgPreview').src = '';
+  document.getElementById('imgPlaceholder').style.display = 'block';
+  document.getElementById('imgFile').value = '';
+
+  closeModal('addModal');
+  state.currentFilter = 'all';
+  applyFilter('all');
+  renderItems();
+  toast(`✅ "${name}" muvaffaqiyatli qo'shildi!`, 'ok');
+}
+
+/* ============================================================
+   MODAL HELPERS
+   ============================================================ */
+function openModal(id) { document.getElementById(id).classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); document.body.style.overflow = ''; }
+
+// Close on overlay click
+document.querySelectorAll('.overlay').forEach(o => {
+  o.addEventListener('click', e => { if (e.target === o) closeModal(o.id); });
+});
+
+// Escape key
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.querySelectorAll('.overlay.open').forEach(o => closeModal(o.id));
+});
+
+/* ============================================================
+   HOW IT WORKS
+   ============================================================ */
+document.getElementById('learnMoreBtn').addEventListener('click', () => openModal('howModal'));
+
+/* ============================================================
+   HAMBURGER
+   ============================================================ */
+document.getElementById('hamburger').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('open');
+});
+document.addEventListener('click', e => {
+  const s = document.getElementById('sidebar');
+  const h = document.getElementById('hamburger');
+  if (s.classList.contains('open') && !s.contains(e.target) && !h.contains(e.target)) s.classList.remove('open');
+});
+
+/* ============================================================
+   FAV BUTTON
+   ============================================================ */
+document.getElementById('favBtn').addEventListener('click', () => {
+  if (!state.favIds.size) { toast('Hali sevimli asbob yo\'q', 'info'); return; }
+  toast(`❤️ ${state.favIds.size} ta sevimli asbob`, 'info');
+});
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+function toast(msg, type = 'info') {
+  const c = document.getElementById('toastContainer');
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  const icons = { ok: 'fa-check-circle', err: 'fa-exclamation-circle', info: 'fa-info-circle' };
+  t.innerHTML = `<i class="fas ${icons[type]}"></i> ${msg}`;
+  c.appendChild(t);
+  setTimeout(() => {
+    t.style.transition = 'all 0.4s'; t.style.opacity = '0'; t.style.transform = 'translateX(50px)';
+    setTimeout(() => t.remove(), 400);
+  }, 3500);
+}
+
+/* ============================================================
+   RIPPLE
+   ============================================================ */
+function addRipple(btn, e) {
+  const r = document.createElement('span'); r.className = 'ripple';
+  const rect = btn.getBoundingClientRect();
+  r.style.left = (e.clientX - rect.left) + 'px';
+  r.style.top = (e.clientY - rect.top) + 'px';
+  btn.appendChild(r);
+  setTimeout(() => r.remove(), 600);
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+seedData();
+restoreSession();
+renderSidebar();
+renderItems();
+updateFavBadge();
+
+setTimeout(() => toast('🔧 USKUNALAR platformasiga xush kelibsiz!', 'info'), 700);
+</script>
+</body>
+</html>
