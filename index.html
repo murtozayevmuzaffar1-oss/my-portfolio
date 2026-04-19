@@ -262,14 +262,6 @@
     max-width: 900px;
     margin: 0 auto;
   }
-
-  /* ── CERTIFICATES SECTION ── */
-  .certificates {
-    padding: 0 20px 80px;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-
   .section-title {
     text-align: center;
     font-size: clamp(1.4rem, 3vw, 2rem);
@@ -331,7 +323,6 @@
     font-size: 0.7rem; font-weight: 700;
     padding: 4px 10px; border-radius: 20px;
     letter-spacing: 0.08em; text-transform: uppercase;
-    z-index: 2;
   }
   .card-body { padding: 24px; }
   .card-body h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; }
@@ -353,91 +344,6 @@
   }
   .btn-card svg { width: 14px; height: 14px; transition: transform 0.2s; }
   .btn-card:hover svg { transform: translateX(3px); }
-
-  /* ── CERTIFICATE CARD SPECIFIC STYLES ── */
-  .cert-card {
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    border-radius: 20px;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    overflow: hidden;
-    transition: transform 0.35s cubic-bezier(.25,.8,.25,1), box-shadow 0.35s, border-color 0.3s;
-  }
-  .cert-card:hover {
-    transform: translateY(-10px) scale(1.01);
-    box-shadow: 0 20px 60px rgba(168,85,247,0.18), 0 0 0 1px rgba(168,85,247,0.35);
-    border-color: rgba(168,85,247,0.4);
-  }
-  .cert-thumb {
-    height: 210px;
-    position: relative;
-    overflow: hidden;
-    background: #030d22;
-  }
-  .cert-thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center top;
-    border-radius: 0;
-    display: block;
-    transition: transform 0.5s cubic-bezier(.25,.8,.25,1);
-  }
-  .cert-card:hover .cert-thumb img {
-    transform: scale(1.06);
-  }
-  .cert-thumb-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      to bottom,
-      transparent 50%,
-      rgba(3, 11, 26, 0.75) 100%
-    );
-    pointer-events: none;
-  }
-  .cert-badge {
-    position: absolute; top: 14px; right: 14px;
-    font-size: 0.7rem; font-weight: 700;
-    padding: 4px 10px; border-radius: 20px;
-    letter-spacing: 0.08em; text-transform: uppercase;
-    z-index: 2;
-    background: rgba(168,85,247,0.15);
-    border: 1px solid rgba(168,85,247,0.45);
-    color: #c084fc;
-  }
-  .cert-body { padding: 22px 24px 24px; }
-  .cert-body h3 {
-    font-size: 1.08rem;
-    font-weight: 700;
-    margin-bottom: 8px;
-    background: linear-gradient(135deg, #fff 0%, #c084fc 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .cert-issuer {
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--neon-purple);
-    margin-bottom: 10px;
-    opacity: 0.85;
-  }
-  .cert-body p {
-    font-size: 0.88rem;
-    color: var(--text-secondary);
-    line-height: 1.65;
-  }
-
-  /* Certificates grid — 3 cols on wide, responsive */
-  .cert-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 24px;
-  }
 
   footer {
     text-align: center;
@@ -544,7 +450,6 @@
     .footer-socials { flex-direction: column; gap: 10px; }
     .lang-switcher { top: 12px; right: 10px; }
     .lang-active-btn, .lang-btn { padding: 5px 12px; font-size: 0.72rem; }
-    .cert-thumb { height: 170px; }
   }
 </style>
 </head>
@@ -606,56 +511,6 @@
           </a>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- ── CERTIFICATES SECTION ── -->
-  <section class="certificates">
-    <h2 class="section-title"><span data-i18n="certs_title"></span></h2>
-    <div class="cert-grid">
-
-      <!-- Certificate 1: Five Million AI Leaders -->
-      <div class="cert-card">
-        <div class="cert-thumb">
-          <img src="photo_2026-04-14_15-44-13.jpg" alt="Five Million AI Leaders Certificate">
-          <div class="cert-thumb-overlay"></div>
-          <div class="cert-badge" data-i18n="cert_badge_intl"></div>
-        </div>
-        <div class="cert-body">
-          <p class="cert-issuer" data-i18n="cert1_issuer"></p>
-          <h3 data-i18n="cert1_title"></h3>
-          <p data-i18n="cert1_desc"></p>
-        </div>
-      </div>
-
-      <!-- Certificate 2: Web Design — IT Study -->
-      <div class="cert-card">
-        <div class="cert-thumb">
-          <img src="photo_2026-04-14_15-44-01.jpg" alt="Web Design Certificate">
-          <div class="cert-thumb-overlay"></div>
-          <div class="cert-badge" data-i18n="cert_badge_course"></div>
-        </div>
-        <div class="cert-body">
-          <p class="cert-issuer" data-i18n="cert2_issuer"></p>
-          <h3 data-i18n="cert2_title"></h3>
-          <p data-i18n="cert2_desc"></p>
-        </div>
-      </div>
-
-      <!-- Certificate 3: Mirzo Ulug'bek Vorislari -->
-      <div class="cert-card">
-        <div class="cert-thumb">
-          <img src="photo_2026-04-14_15-43-48.jpg" alt="Mirzo Ulug'bek Vorislari Certificate">
-          <div class="cert-thumb-overlay"></div>
-          <div class="cert-badge" data-i18n="cert_badge_national"></div>
-        </div>
-        <div class="cert-body">
-          <p class="cert-issuer" data-i18n="cert3_issuer"></p>
-          <h3 data-i18n="cert3_title"></h3>
-          <p data-i18n="cert3_desc"></p>
-        </div>
-      </div>
-
     </div>
   </section>
 
@@ -724,21 +579,7 @@
       modal_intro_text: 'Salom! Mening ismim Muzaffar. Men hozirda ISFT institutining "Axborot tizimlari va texnologiyalari" yo\'nalishi bo\'yicha 2-kurs talabasiman. Texnologiyalar olami men uchun shunchaki o\'qish emas, balki hayot tarzi va kelajak poydevoridir. Men doimo murakkab muammolarga kreativ va xavfsiz raqamli yechimlar topishga intilaman. Hozirda dasturlashning Frontend yo\'nalishi va Kiberxavfsizlik sohalarida o\'z bilimlarimni chuqurlashtirmoqdaman.',
       modal_goal_label: '🎯 Maqsadim',
       modal_goal_text:  'Mening asosiy maqsadim — nafaqat chiroyli va qulay veb-saytlar yaratish, balki foydalanuvchilar ma\'lumotlari himoyasini ta\'minlaydigan xavfsiz raqamli ekotizimlar barpo etishdir. Har bir yozgan kodim ortida insonlar hayotini osonlashtirish va ularga texnologiyalar orqali yordam berish istagi yotadi.',
-      modal_contact_label: '📞 Kontaktlar',
-      // Certificates
-      certs_title:      'Sertifikatlarim',
-      cert_badge_intl:  'Xalqaro',
-      cert_badge_course:'Kurs',
-      cert_badge_national: 'Milliy',
-      cert1_issuer:     'UAE & O\'zbekiston Hukumati · 2026',
-      cert1_title:      'Five Million AI Leaders',
-      cert1_desc:       'BAA va O\'zbekiston hukumatlari tomonidan birgalikda tashkil etilgan "Five Million AI Leaders" dasturini muvaffaqiyatli tugatganlik uchun berilgan xalqaro tan olish. Dastur sun\'iy intellekt tizimlarida prompt muhandisligini o\'rgatishga qaratilgan.',
-      cert2_issuer:     'IT Study Platformasi · 2025',
-      cert2_title:      'Veb-Dizayn Mutaxassisi',
-      cert2_desc:       'IT Study onlayn ta\'lim platformasida zamonaviy veb-dizayn va UX/UI asoslari kursini muvaffaqiyatli tamomlash uchun berilgan sertifikat.',
-      cert3_issuer:     'Respublika Tanlovi · 2024',
-      cert3_title:      'Mirzo Ulug\'bek Vorislari',
-      cert3_desc:       'Innovatsion g\'oyalar va texnologik ishlanmalar bo\'yicha o\'tkazilgan "Mirzo Ulug\'bek Vorislari" respublika tanlovida ro\'yxatdan o\'tish va faol ishtirok etish uchun berilgan sertifikat.'
+      modal_contact_label: '📞 Kontaktlar'
     },
     ru: {
       hero_role:        'Веб-Разработчик',
@@ -754,21 +595,7 @@
       modal_intro_text: 'Привет! Меня зовут Музаффар. В настоящее время я студент 2-го курса ISFT по направлению «Информационные системы и технологии». Мир технологий для меня — не просто учёба, а образ жизни и фундамент будущего. Я всегда стремлюсь находить творческие и безопасные цифровые решения для сложных задач. Сейчас углубляю знания во Frontend-разработке и кибербезопасности.',
       modal_goal_label: '🎯 Моя цель',
       modal_goal_text:  'Моя главная цель — не просто создавать красивые и удобные сайты, но и строить безопасные цифровые экосистемы, защищающие данные пользователей. За каждой строкой кода стоит желание облегчить жизнь людей и помочь им с помощью технологий.',
-      modal_contact_label: '📞 Контакты',
-      // Certificates
-      certs_title:      'Мои сертификаты',
-      cert_badge_intl:  'Международный',
-      cert_badge_course:'Курс',
-      cert_badge_national: 'Национальный',
-      cert1_issuer:     'Правительства ОАЭ и Узбекистана · 2026',
-      cert1_title:      'Five Million AI Leaders',
-      cert1_desc:       'Международное признание за успешное завершение программы «Five Million AI Leaders» — совместной инициативы правительств ОАЭ и Узбекистана по обучению промпт-инжинирингу для систем искусственного интеллекта.',
-      cert2_issuer:     'Платформа IT Study · 2025',
-      cert2_title:      'Специалист по Веб-Дизайну',
-      cert2_desc:       'Сертификат об успешном прохождении курса по современному веб-дизайну и основам UX/UI на онлайн-платформе IT Study.',
-      cert3_issuer:     'Республиканский конкурс · 2024',
-      cert3_title:      'Наследники Мирзо Улугбека',
-      cert3_desc:       'Сертификат участника республиканского конкурса «Наследники Мирзо Улугбека» — за регистрацию и активное участие в соревновании, посвящённом инновационным идеям и технологическим разработкам.'
+      modal_contact_label: '📞 Контакты'
     },
     en: {
       hero_role:        'Web Developer',
@@ -784,21 +611,7 @@
       modal_intro_text: 'Hi! My name is Muzaffar. I\'m currently a 2nd-year student at ISFT, majoring in Information Systems and Technologies. The world of technology is not just a field of study for me — it\'s a lifestyle and the foundation of my future. I always strive to find creative and secure digital solutions to complex problems. I\'m currently deepening my knowledge in Frontend development and Cybersecurity.',
       modal_goal_label: '🎯 My Goal',
       modal_goal_text:  'My main goal is not only to create beautiful and user-friendly websites, but to build secure digital ecosystems that protect user data. Behind every line of code I write is a desire to make people\'s lives easier and help them through technology.',
-      modal_contact_label: '📞 Contacts',
-      // Certificates
-      certs_title:      'My Certificates',
-      cert_badge_intl:  'International',
-      cert_badge_course:'Course',
-      cert_badge_national: 'National',
-      cert1_issuer:     'UAE & Uzbekistan Governments · 2026',
-      cert1_title:      'Five Million AI Leaders',
-      cert1_desc:       'International recognition for successfully completing the Five Million AI Leaders initiative — a joint program by the governments of the UAE and Uzbekistan to train individuals in prompt engineering for AI systems.',
-      cert2_issuer:     'IT Study Platform · 2025',
-      cert2_title:      'Web Design Specialist',
-      cert2_desc:       'Certificate for successfully completing a course in modern web design and UX/UI fundamentals on the IT Study online learning platform.',
-      cert3_issuer:     'National Competition · 2024',
-      cert3_title:      "Mirzo Ulug'bek Vorislari",
-      cert3_desc:       "Certificate of participation in the national 'Mirzo Ulug'bek Vorislari' competition — awarded for registration and active participation in the contest dedicated to innovative ideas and technological developments."
+      modal_contact_label: '📞 Contacts'
     }
   };
 
