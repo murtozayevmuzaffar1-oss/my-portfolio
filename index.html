@@ -205,6 +205,41 @@
   .btn-card:hover { background:rgba(0,195,255,.2); box-shadow:0 0 20px rgba(0,195,255,.25); transform:translateX(3px); }
   .btn-card svg { width:14px; height:14px; transition:transform .2s; }
   .btn-card:hover svg { transform:translateX(3px); }
+  .card-platform-list { display:flex; flex-direction:column; gap:12px; margin-bottom:20px; }
+  .card-platform-item p { font-size:.88rem; color:var(--text-secondary); line-height:1.6; margin-top:5px; margin-bottom:0; }
+  .card-platform-label {
+    display:inline-flex; align-items:center; gap:5px;
+    font-size:.72rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+    padding:3px 10px; border-radius:20px;
+  }
+  .card-platform-web {
+    color:var(--neon-blue);
+    background:rgba(0,195,255,.12); border:1px solid rgba(0,195,255,.35);
+  }
+  .card-platform-android {
+    color:#78e08f;
+    background:rgba(120,224,143,.1); border:1px solid rgba(120,224,143,.35);
+  }
+  .btn-card-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .btn-card-group .btn-card {
+    flex: 1 1 auto;
+    justify-content: center;
+    min-width: 130px;
+  }
+  .btn-card.btn-android {
+    color: #78e08f;
+    border-color: rgba(120,224,143,.4);
+    background: rgba(120,224,143,.08);
+  }
+  .btn-card.btn-android:hover {
+    background: rgba(120,224,143,.2);
+    box-shadow: 0 0 20px rgba(120,224,143,.25);
+    transform: translateX(3px);
+  }
 
   .badges-section { padding: 0 20px 70px; max-width: 960px; margin: 0 auto; }
 
@@ -640,16 +675,42 @@
         </div>
         <div class="card-body">
           <h3 data-i18n="card1_title"></h3>
-          <p  data-i18n="card1_desc"></p>
-          <a href="https://murtozayevmuzaffar1-oss.github.io/uz-weather/ob-havo.html"
-             target="_blank" class="btn-card">
-            <span data-i18n="card_btn"></span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                 stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"/>
-              <polyline points="12 5 19 12 12 19"/>
-            </svg>
-          </a>
+          <div class="card-platform-list">
+            <div class="card-platform-item">
+              <span class="card-platform-label card-platform-web">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                <span data-i18n="card1_web_label"></span>
+              </span>
+              <p data-i18n="card1_web_desc"></p>
+            </div>
+            <div class="card-platform-item">
+              <span class="card-platform-label card-platform-android">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg>
+                <span data-i18n="card1_mob_label"></span>
+              </span>
+              <p data-i18n="card1_mob_desc"></p>
+            </div>
+          </div>
+          <div class="btn-card-group">
+            <a href="https://murtozayevmuzaffar1-oss.github.io/uz-weather/ob-havo.html"
+               target="_blank" class="btn-card">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="2" y1="12" x2="22" y2="12"/>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+              </svg>
+              <span>Veb-saytni ko'rish</span>
+            </a>
+            <a href="app-release.apk" download class="btn-card btn-android">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+                <line x1="12" y1="18" x2="12" y2="18"/>
+              </svg>
+              <span>Mobil ilovani yuklash</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -852,7 +913,10 @@ var i18n = {
     badge_webdesign_name:'Veb-Dizayn Mutaxassisi',
     projects_title: 'Mening loyihalarim',
     card1_title:    'O\'zbekiston Ob-havosi',
-    card1_desc:     'OpenWeatherMap API yordamida yaratilgan, viloyatlar bo\'yicha real vaqtda ob-havo ma\'lumotlarini ko\'rsatuvchi professional veb-ilova.',
+    card1_web_label: 'Veb ilova',
+    card1_web_desc:  'OpenWeatherMap API yordamida yaratilgan professional veb-ilova — O\'zbekiston viloyatlari bo\'yicha real vaqtda ob-havo ma\'lumotlarini ko\'rsatadi.',
+    card1_mob_label: 'Mobil ilova',
+    card1_mob_desc:  'Android uchun maxsus ishlab chiqilgan mobil versiya — qulay interfeys va internet orqali tezkor ishlash imkoniyati bilan.',
     card_btn:       'Loyihani ko\'rish',
     certs_title:        'Sertifikatlarim',
     cert_badge_intl:    'Xalqaro',
@@ -906,7 +970,10 @@ var i18n = {
     badge_webdesign_name:'Специалист по Веб-Дизайну',
     projects_title: 'Мои проекты',
     card1_title:    'Погода Узбекистана',
-    card1_desc:     'Профессиональное веб-приложение на основе OpenWeatherMap API, отображающее погоду в реальном времени по регионам Узбекистана.',
+    card1_web_label: 'Веб-приложение',
+    card1_web_desc:  'Профессиональное веб-приложение на основе OpenWeatherMap API, отображающее погоду в реальном времени по регионам Узбекистана.',
+    card1_mob_label: 'Мобильное приложение',
+    card1_mob_desc:  'Нативная Android-версия приложения — удобный интерфейс и быстрая работа через интернет.',
     card_btn:       'Смотреть проект',
     certs_title:        'Мои сертификаты',
     cert_badge_intl:    'Международный',
@@ -960,7 +1027,10 @@ var i18n = {
     badge_webdesign_name:'Web Design Specialist',
     projects_title: 'My Projects',
     card1_title:    'Uzbekistan Weather',
-    card1_desc:     'A professional web application built with the OpenWeatherMap API, showing real-time weather data across regions of Uzbekistan.',
+    card1_web_label: 'Web App',
+    card1_web_desc:  'A professional web application built with the OpenWeatherMap API, showing real-time weather data across regions of Uzbekistan.',
+    card1_mob_label: 'Mobile App',
+    card1_mob_desc:  'A native Android app built for on-the-go weather tracking — clean UI and fast performance via internet connection.',
     card_btn:       'View Project',
     certs_title:        'My Certificates',
     cert_badge_intl:    'International',
